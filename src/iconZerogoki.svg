@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>zerogiki token</title>
+    <g id="zerogiki-token" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M48,0 C21.490332,0 0,21.490332 0,48 C0,74.509668 21.490332,96 48,96 C74.509668,96 96,74.509668 96,48 C96,35.2696085 90.9428717,23.0606207 81.9411255,14.0588745 C72.9393793,5.05712834 60.7303915,0 48,0 Z" id="形状" fill="#E40303" fill-rule="nonzero"></path>
+        <g id="编组-3备份" transform="translate(14.816590, 14.799484)">
+            <ellipse id="椭圆形" fill="#000000" cx="33.18341" cy="33.2005155" rx="33.18341" ry="33.2005155"></ellipse>
+            <ellipse id="椭圆形" fill="#FFFFFF" cx="47.719093" cy="33.2005155" rx="14.1437485" ry="14.1510394"></ellipse>
+            <ellipse id="椭圆形备份-2" fill="#FFFFFF" cx="61.8628415" cy="50.5935499" rx="4.50397849" ry="4.50630021"></ellipse>
+        </g>
+    </g>
+</svg>
