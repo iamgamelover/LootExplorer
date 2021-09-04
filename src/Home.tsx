@@ -195,6 +195,12 @@ function Home() {
   async function clickClaimBtn(){
     let res = await claim(inputBagId);
     console.info(res);
+    if(res.result==="ok"){
+      // mint suceess
+    }else{
+      // mint fail
+      let msg = res.msg;
+    }
   }
 
   // ROOT

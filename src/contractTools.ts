@@ -13,6 +13,7 @@ export async function claim(tokenId:number):Promise<any>{
                 return {"result":"ok","hash":res.hash};
             }
         } catch (error:any) {
+            console.info(error.message);
             return {"result":"error","msg":"wrong bagId"};
         }
     }
