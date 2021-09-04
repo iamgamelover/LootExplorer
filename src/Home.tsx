@@ -17,8 +17,9 @@ import { defaultWalletProvider, getNewWalletConnectInstance, injected, walletcon
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
+import { claim } from './contractTools';
 
-var currUserAccount: any;
+export var currUserAccount: any;
 export var currUserAccountSigner: any;
 
 function Home() {
@@ -187,6 +188,11 @@ function Home() {
     )
   }
 
+  async function clickClaimBtn(){
+    let res = await claim(12);
+    console.info(res);
+  }
+
   // ROOT
   return (
     // <Center bgImage={bg}>
@@ -262,7 +268,7 @@ function Home() {
                 Begin your journey through Azeroth
               </Flex>
               <Flex mb={[10, 10]}>
-                <Button leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
+                <Button leftIcon={<MdBuild />} onClick={clickClaimBtn} colorScheme="pink" variant="solid">
                   Claim wowLOOT
                 </Button>
               </Flex>
