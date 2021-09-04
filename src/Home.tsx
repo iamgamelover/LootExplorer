@@ -216,9 +216,9 @@ function Home() {
           </Flex>
         </Flex>
 
-        <Flex mt={[8, 1]} mb={5} fontSize='2xl'>
+        {/* <Flex mt={[8, 1]} mb={5} fontSize='2xl'>
           By @Duet
-        </Flex>
+        </Flex> */}
 
         <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           WOW Loot is an independent universe located on the earth of Azeroth and
@@ -261,10 +261,10 @@ function Home() {
           <Link mr={[2, 10]} href="" isExternal>
             OpenSea <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link mr={[2, 10]} href="" isExternal>
+          <Link mr={[2, 10]} href="https://discord.gg/kKm8rZeZtJ" isExternal>
             Discord <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link mr={[0, 10]} href="https://twitter.com/lootproject" isExternal>
+          <Link mr={[0, 10]} href="https://twitter.com/Wloot01" isExternal>
             @wowloot <ExternalLinkIcon mx="2px" />
           </Link>
         </Flex>
