@@ -190,31 +190,31 @@ function Home() {
   // ROOT
   return (
     // <Center bgImage={bg}>
-    <Center>
-      <Flex direction='column' w='80%' px={20} py={10}>
-        <Flex justify="space-between" align="center">
-          <Text fontSize='6xl'>wowLOOT</Text>
+    <Center px={[2, 0]}>
+      <Flex direction='column' w={['100%', '80%']} px={[2, 20]} py={[2, 10]}>
+        <Flex direction={['column', 'row']} justify="space-between" align="center">
+          <Text fontSize='6xl' mb={[2, 0]}>wowLOOT</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
             <ConnectWalletModal />
           </Flex>
         </Flex>
 
-        <Flex mt={1} mb={5} fontSize='2xl'>
+        <Flex mt={[8, 1]} mb={5} fontSize='2xl'>
           By @Duet
         </Flex>
 
-        <Flex w='70%' mt={3} fontSize='xl' color='gray'>
+        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           wowLOOT is a separate universe based on Azeroth and Outland during the Burning Crusade.
         </Flex>
 
-        <Flex w='70%' mt={3} fontSize='xl' color='gray'>
+        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           The Doom Lord Kazzak reopened the Dark Portal to Outland, flooding Azeroth with
           the ravenous demons of the Burning Legion. Expeditions from the Horde and Alliance,
           passed through the gateway to stop the invasion at its source.
         </Flex>
 
-        <Flex w='70%' mt={3} fontSize='xl' color='gray'>
+        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           Players, let us raise the hands of the sword and scepter, face the enemy together!
         </Flex>
 
@@ -223,13 +223,13 @@ function Home() {
         </Flex>
 
         <Flex fontSize='xl'>
-          <Link mr={10} href="https://opensea.io/collection/lootproject" isExternal>
+          <Link mr={[2, 10]} href="https://opensea.io/collection/lootproject" isExternal>
             OpenSea <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link mr={10} href="https://discord.gg/NXEntTSHgy" isExternal>
+          <Link mr={[2, 10]} href="https://discord.gg/NXEntTSHgy" isExternal>
             Discord <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link mr={10} href="https://twitter.com/lootproject" isExternal>
+          <Link mr={[0, 10]} href="https://twitter.com/lootproject" isExternal>
             @lootproject <ExternalLinkIcon mx="2px" />
           </Link>
         </Flex>
@@ -239,31 +239,36 @@ function Home() {
           Links to wowLOOT:
         </Flex>
 
-        <Flex>
-          <Link fontSize="2xl" mr={10} href="" isExternal>
+        <Flex fontSize='2xl'>
+          <Link mr={[2, 10]} href="" isExternal>
             OpenSea <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link fontSize="2xl" mr={10} href="" isExternal>
+          <Link mr={[2, 10]} href="" isExternal>
             Discord <ExternalLinkIcon mx="2px" />
           </Link>
-          <Link fontSize="2xl" mr={10} href="https://twitter.com/lootproject" isExternal>
+          <Link mr={[0, 10]} href="https://twitter.com/lootproject" isExternal>
             @wowloot <ExternalLinkIcon mx="2px" />
           </Link>
         </Flex>
 
         <Divider mt={8} />
-        <Flex mt={10}>
-          <Image src={logo} mr={20} />
 
-          <Flex direction='column'>
-            <Flex mt={3} mb={5} fontSize='2xl'>
-              Begin your journey through Azeroth
+        <Center>
+          <Flex direction={['column', 'row']} mt={10}>
+            <Image src={logo} mr={20} />
+
+            <Flex direction='column'>
+              <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
+                Begin your journey through Azeroth
+              </Flex>
+              <Flex mb={[10, 10]}>
+                <Button leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
+                  Claim wowLOOT
+                </Button>
+              </Flex>
             </Flex>
-            <Button leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
-              Claim wowLOOT
-            </Button>
           </Flex>
-        </Flex>
+        </Center>
       </Flex>
     </Center>
   );
