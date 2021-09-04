@@ -14,14 +14,27 @@ import bg from './bg.jpg';
 import wow from './wow.png';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { defaultWalletProvider, getNewWalletConnectInstance, injected, walletconnect } from './connectors';
+import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injected, walletconnect } from './connectors';
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
 import { claim } from './contractTools';
 
+export var currChainId = chain_id_eth;
 export var currUserAccount: any;
 export var currUserAccountSigner: any;
+
+export const chainName = new Map([
+  [1, "ETH Mainnet"],
+  [3, "ETH Ropsten"],
+  [4, "ETH Rinkeby"],
+  [5, "ETH Goerli"],
+  [42, "ETH Kovan"],
+  [56, "BSC Mainnet"],
+  [65, "OKExChain Testnet"],
+  [80001, "Polygon Testnet"],
+  [97, "BSC Testnet"],
+]);
 
 function Home() {
   console.info('currUserAccount: ', currUserAccount);
@@ -31,6 +44,13 @@ function Home() {
   const context = useWeb3React<Web3Provider>();
   const { connector, library, account, activate, deactivate, chainId } = context;
 
+  if (chainId) {
+    currChainId = chainId;
+  } else {
+    currChainId = 0;
+  }
+
+  //
   function toastError(msg: string) {
     toast({
       title: msg,
@@ -205,20 +225,30 @@ function Home() {
 
   function AfterConnect() {
     return (
-      <Button px={5} leftIcon={<MdAccountBalanceWallet />}
-        colorScheme="green" variant="solid">
-
-        <Text>Connected to {getAccountString()}</Text>
-      </Button>
+      <Flex align="center">
+        <Text mr={5} color='yellow'>{chainName.get(currChainId)}</Text>
+        <Button px={5} leftIcon={<MdAccountBalanceWallet />}
+          colorScheme="green" variant="solid">
+          Connected to {getAccountString()}
+        </Button>
+      </Flex>
     )
   }
 
   async function clickClaimBtn() {
+    // TODO change to mainnet
+    // if (currChainId !== chain_id_eth) { // Ethereum Mainnet
+    if (currChainId !== chain_id_eth) { // Rinkeby Test Network
+      // toastError('Please switch to Ethereum Mainnet!');
+      toastError('Please switch to Rinkeby Test Network!');
+      return;
+    }
+
     let res = await claim(inputBagId);
     console.info(res);
     if (res.result === "ok") {
-      // mint suceess
-      toastSuccess('You have successfully minted a WOW LOOT! Please go to OpenSea to check.');
+      // mint success
+      toastSuccess('Successfully minted! Check on the OpenSea.');
     } else {
       // mint fail
       toastError(res.msg);
