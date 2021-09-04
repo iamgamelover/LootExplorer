@@ -189,7 +189,7 @@ function Home() {
   let [inputBagId, setInputBagId] = useState(0)
 
   function getAccountString() {
-    let myAccount = currUserAccount.substring(0, 6) + '...' +
+    let myAccount = currUserAccount.substring(0, 6) + ' ... ' +
       currUserAccount.substring(currUserAccount.length - 4);
     return myAccount;
   }
@@ -208,7 +208,7 @@ function Home() {
       <Button px={5} leftIcon={<MdAccountBalanceWallet />}
         colorScheme="green" variant="solid">
 
-        <Text>{getAccountString()}</Text>
+        <Text>Connected to {getAccountString()}</Text>
       </Button>
     )
   }
@@ -218,10 +218,9 @@ function Home() {
     console.info(res);
     if (res.result === "ok") {
       // mint suceess
-      toastSuccess('You have successfully minted a WOW LOOT!');
+      toastSuccess('You have successfully minted a WOW LOOT! Please go to OpenSea to check.');
     } else {
       // mint fail
-      // let msg = res.msg;
       toastError(res.msg);
     }
   }
@@ -243,7 +242,7 @@ function Home() {
           By @Duet
         </Flex> */}
 
-        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
+        <Flex w={['100%', '70%']} mt={[10, 3]} fontSize='xl' color='gray'>
           WOW Loot is an independent universe located on the earth of Azeroth and
           Outland during the period of the Burning Crusade.
         </Flex>
@@ -265,13 +264,13 @@ function Home() {
 
         <Flex fontSize='xl'>
           <Link mr={[2, 10]} href="https://opensea.io/collection/lootproject" isExternal>
-            OpenSea <ExternalLinkIcon mx="2px" />
+            OpenSea <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[2, 10]} href="https://discord.gg/NXEntTSHgy" isExternal>
-            Discord <ExternalLinkIcon mx="2px" />
+            Discord <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[0, 10]} href="https://twitter.com/lootproject" isExternal>
-            @lootproject <ExternalLinkIcon mx="2px" />
+            @lootproject <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
         </Flex>
 
@@ -282,13 +281,13 @@ function Home() {
 
         <Flex fontSize='2xl'>
           <Link mr={[2, 10]} href="" isExternal>
-            OpenSea <ExternalLinkIcon mx="2px" />
+            OpenSea <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[2, 10]} href="https://discord.gg/kKm8rZeZtJ" isExternal>
-            Discord <ExternalLinkIcon mx="2px" />
+            Discord <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[0, 10]} href="https://twitter.com/Wloot01" isExternal>
-            @wowloot <ExternalLinkIcon mx="2px" />
+            @Wloot01 <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
         </Flex>
 
@@ -296,14 +295,14 @@ function Home() {
 
         <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            <Image src={wow} mr={[0,20]} />
+            <Image src={wow} mr={[0, 20]} />
 
-            <Flex direction='column'>
-              <Flex mt={3} mb={5} fontSize={['2xl', '2xl']}>
+            <Flex direction='column' align='center'>
+              <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
                 Begin your journey through Azeroth
               </Flex>
 
-              <NumberInput w={['100%', '70%']} mb={5} >
+              <NumberInput w={['15rem', '15rem']} mb={[8, 7]} >
                 <NumberInputField value={inputBagId} placeholder="Enter Bag ID"
                   onChange={(e) => {
                     setInputBagId(parseInt(e.target.value));
