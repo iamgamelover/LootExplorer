@@ -164,6 +164,9 @@ function Home() {
     )
   }
 
+
+  let [inputBagId,setInputBagId] = useState(0)
+
   function getAccountString() {
     let myAccount = currUserAccount.substring(0, 6) + '...' +
       currUserAccount.substring(currUserAccount.length - 4);
@@ -190,7 +193,7 @@ function Home() {
   }
 
   async function clickClaimBtn(){
-    let res = await claim(12);
+    let res = await claim(inputBagId);
     console.info(res);
   }
 
@@ -272,7 +275,9 @@ function Home() {
               </Flex>
 
               <NumberInput w={['100%', '70%']} mb={5} >
-                <NumberInputField placeholder="Enter Bag ID" />
+                <NumberInputField value={inputBagId} placeholder="Enter Bag ID" onChange={(e)=>{
+                  setInputBagId(parseInt(e.target.value));
+                }} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />

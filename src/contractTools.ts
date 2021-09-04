@@ -14,7 +14,8 @@ export async function claim(tokenId:number):Promise<any>{
                 return {"result":"ok","hash":res.hash};
             }
         } catch (error:any) {
-            return {"result":"error","msg":"error tokenId"};
+            console.error(error);
+            return {"result":"error","msg":"wrong bagId"};
         }
     }
     return "";
