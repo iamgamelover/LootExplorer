@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast
 } from "@chakra-ui/react"
 import { theme } from './theme';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
@@ -26,9 +26,30 @@ export var currUserAccountSigner: any;
 function Home() {
   console.info('currUserAccount: ', currUserAccount);
 
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context = useWeb3React<Web3Provider>();
   const { connector, library, account, activate, deactivate, chainId } = context;
+
+  function toastError(msg: string) {
+    toast({
+      title: msg,
+      // description: msg,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    })
+  }
+
+  function toastSuccess(msg: string) {
+    toast({
+      title: msg,
+      // description: msg,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    })
+  }
 
   // AutoConnect
   const [balance, setBalance] = useState();
@@ -165,7 +186,7 @@ function Home() {
   }
 
 
-  let [inputBagId,setInputBagId] = useState(0)
+  let [inputBagId, setInputBagId] = useState(0)
 
   function getAccountString() {
     let myAccount = currUserAccount.substring(0, 6) + '...' +
@@ -192,14 +213,16 @@ function Home() {
     )
   }
 
-  async function clickClaimBtn(){
+  async function clickClaimBtn() {
     let res = await claim(inputBagId);
     console.info(res);
-    if(res.result==="ok"){
+    if (res.result === "ok") {
       // mint suceess
-    }else{
+      toastSuccess('You have successfully minted a WOW LOOT!');
+    } else {
       // mint fail
-      let msg = res.msg;
+      // let msg = res.msg;
+      toastError(res.msg);
     }
   }
 
@@ -273,25 +296,27 @@ function Home() {
 
         <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            <Image src={wow} mr={20} />
+            <Image src={wow} mr={[0,20]} />
 
             <Flex direction='column'>
-              <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
+              <Flex mt={3} mb={5} fontSize={['2xl', '2xl']}>
                 Begin your journey through Azeroth
               </Flex>
 
               <NumberInput w={['100%', '70%']} mb={5} >
-                <NumberInputField value={inputBagId} placeholder="Enter Bag ID" onChange={(e)=>{
-                  setInputBagId(parseInt(e.target.value));
-                }} />
-                <NumberInputStepper>
+                <NumberInputField value={inputBagId} placeholder="Enter Bag ID"
+                  onChange={(e) => {
+                    setInputBagId(parseInt(e.target.value));
+                  }} />
+                {/* <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
-                </NumberInputStepper>
+                </NumberInputStepper> */}
               </NumberInput>
 
               <Flex>
-                <Button px={10} leftIcon={<MdBuild />} onClick={clickClaimBtn} colorScheme="pink" variant="solid">
+                <Button px={10} leftIcon={<MdBuild />} onClick={clickClaimBtn}
+                  colorScheme="pink" variant="solid">
                   Claim WOW LOOT
                 </Button>
               </Flex>
