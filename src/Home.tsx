@@ -18,8 +18,9 @@ import { defaultWalletProvider, getNewWalletConnectInstance, injected, walletcon
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
+import { claim } from './contractTools';
 
-var currUserAccount: any;
+export var currUserAccount: any;
 export var currUserAccountSigner: any;
 
 function Home() {
@@ -163,6 +164,9 @@ function Home() {
     )
   }
 
+
+  let [inputBagId,setInputBagId] = useState(0)
+
   function getAccountString() {
     let myAccount = currUserAccount.substring(0, 6) + '...' +
       currUserAccount.substring(currUserAccount.length - 4);
@@ -186,6 +190,11 @@ function Home() {
         <Text>{getAccountString()}</Text>
       </Button>
     )
+  }
+
+  async function clickClaimBtn(){
+    let res = await claim(inputBagId);
+    console.info(res);
   }
 
   // ROOT
@@ -266,7 +275,9 @@ function Home() {
               </Flex>
 
               <NumberInput w={['100%', '70%']} mb={5} >
-                <NumberInputField placeholder="Enter Bag ID" />
+                <NumberInputField value={inputBagId} placeholder="Enter Bag ID" onChange={(e)=>{
+                  setInputBagId(parseInt(e.target.value));
+                }} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
@@ -274,7 +285,7 @@ function Home() {
               </NumberInput>
 
               <Flex>
-                <Button px={10} leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
+                <Button px={10} leftIcon={<MdBuild />} onClick={clickClaimBtn} colorScheme="pink" variant="solid">
                   Claim WOW LOOT
                 </Button>
               </Flex>
