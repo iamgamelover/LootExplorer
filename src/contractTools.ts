@@ -13,8 +13,19 @@ export async function claim(tokenId:number):Promise<any>{
                 return {"result":"ok","hash":res.hash};
             }
         } catch (error:any) {
-            let msg = error.error.message as string
-            return {"result":"error","msg":msg.substr("execution reverted: ".length)};
+
+            console.info(error);
+            let msg = error.message as string
+            if(error.error){
+                msg = error.error.message as string
+            }
+            
+            let prefix = "MetaMask Tx Signature: "
+            if(msg.startsWith("MetaMask Tx Signature: ")===false){
+                prefix = "execution reverted: "
+            }
+
+            return {"result":"error","msg":msg.substr(prefix.length)};
         }
     }
     return  {"result":"error","msg":"please connect wallet first"};
