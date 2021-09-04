@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper
 } from "@chakra-ui/react"
 import { theme } from './theme';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
@@ -11,6 +11,7 @@ import logo from './iconZerogoki.svg';
 import iconMetamask from './iconMetamask.svg';
 import iconWalletConnect from './iconWalletConnect.svg';
 import bg from './bg.jpg';
+import wow from './wow.png';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { defaultWalletProvider, getNewWalletConnectInstance, injected, walletconnect } from './connectors';
@@ -182,7 +183,7 @@ function Home() {
       <Button px={5} leftIcon={<MdAccountBalanceWallet />}
         colorScheme="green" variant="solid">
 
-        <Text> {getAccountString()} </Text>
+        <Text>{getAccountString()}</Text>
       </Button>
     )
   }
@@ -193,7 +194,7 @@ function Home() {
     <Center px={[2, 0]}>
       <Flex direction='column' w={['100%', '80%']} px={[2, 20]} py={[2, 10]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
-          <Text fontSize='6xl' mb={[2, 0]}>wowLOOT</Text>
+          <Text fontSize='6xl' mb={[2, 0]}>WOW LOOT</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
             <ConnectWalletModal />
@@ -205,17 +206,19 @@ function Home() {
         </Flex>
 
         <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
-          wowLOOT is a separate universe based on Azeroth and Outland during the Burning Crusade.
+          WOW Loot is an independent universe located on the earth of Azeroth and
+          Outland during the period of the Burning Crusade.
         </Flex>
 
         <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
-          The Doom Lord Kazzak reopened the Dark Portal to Outland, flooding Azeroth with
-          the ravenous demons of the Burning Legion. Expeditions from the Horde and Alliance,
-          passed through the gateway to stop the invasion at its source.
+          The Doom Lord Kazzak reopened the Dark Portal to Outland, plaguing Azeroth
+          with the ravenous demons of the Burning Legion. The Expeditionary Army from
+          the Horde and Alliance passed through the gateway to resist the invasion at the frontend.
         </Flex>
 
         <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
-          Players, let us raise the hands of the sword and scepter, face the enemy together!
+          Comrades, let us pick up our swords and scepters and get our hands armed.
+          Let's fight our enemies together!
         </Flex>
 
         <Flex mt={10} mb={5} fontSize='xl'>
@@ -236,7 +239,7 @@ function Home() {
 
         <Divider mt={10} />
         <Flex mt={8} mb={2} fontSize='xl'>
-          Links to wowLOOT:
+          Links to WOW LOOT:
         </Flex>
 
         <Flex fontSize='2xl'>
@@ -253,17 +256,26 @@ function Home() {
 
         <Divider mt={8} />
 
-        <Center>
+        <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            <Image src={logo} mr={20} />
+            <Image src={wow} mr={20} />
 
             <Flex direction='column'>
               <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
                 Begin your journey through Azeroth
               </Flex>
-              <Flex mb={[10, 10]}>
-                <Button leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
-                  Claim wowLOOT
+
+              <NumberInput w={['100%', '70%']} mb={5} >
+                <NumberInputField placeholder="Enter Bag ID" />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+
+              <Flex>
+                <Button px={10} leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
+                  Claim WOW LOOT
                 </Button>
               </Flex>
             </Flex>
