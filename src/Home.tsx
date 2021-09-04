@@ -19,7 +19,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
 
 var currUserAccount: any;
-var currUserAccountSigner: any;
+export var currUserAccountSigner: any;
 
 function Home() {
   console.info('currUserAccount: ', currUserAccount);
