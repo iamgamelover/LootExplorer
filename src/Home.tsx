@@ -236,6 +236,12 @@ function Home() {
   }
 
   async function clickClaimBtn() {
+
+    if (currUserAccount === undefined) { // Not connected to a wallet
+      toastError('Please connect to a wallet first!');
+      return;
+    }
+
     // TODO change to mainnet
     // if (currChainId !== chain_id_eth) { // Ethereum Mainnet
     if (currChainId !== chain_id_eth) { // Rinkeby Test Network
@@ -325,7 +331,7 @@ function Home() {
 
         <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            <Image src={wow} mr={[0, 20]} />
+            {/* <Image src={wow} mr={[0, 20]} /> */}
 
             <Flex direction='column' align='center'>
               <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
