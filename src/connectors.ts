@@ -58,7 +58,7 @@ export function getNewWalletConnectInstance(): WalletConnectConnector {
   return walletconnect;
 }
 
-export const chain_id_eth = 42;
+export const chain_id_eth = 4;
 export const chain_id_okChain = 65;
 export const chain_id_bsc = 97;
 export const chain_id_polygon = 80001;
