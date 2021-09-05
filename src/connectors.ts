@@ -65,6 +65,4 @@ export const chain_id_bsc = 97;
 export const chain_id_polygon = 80001;
 
 export const default_rpc_url = RPC_URLS[chain_id_eth]
-//export const rpc_url_web3 = "https://mainnet.infura.io/v3/" + infuraKey1;
-export const rpc_url_web3 = default_rpc_url;
 export const defaultWalletProvider = new ethers.providers.JsonRpcProvider(default_rpc_url);
