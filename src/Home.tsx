@@ -236,11 +236,14 @@ function Home() {
   }
 
   async function clickClaimBtn() {
-    // TODO change to mainnet
-    // if (currChainId !== chain_id_eth) { // Ethereum Mainnet
-    if (currChainId !== chain_id_eth) { // Rinkeby Test Network
-      // toastError('Please switch to Ethereum Mainnet!');
-      toastError('Please switch to Rinkeby Test Network!');
+
+    if (currUserAccount === undefined) { // Not connected to a wallet
+      toastError('Please connect to a wallet first!');
+      return;
+    }
+
+    if (currChainId !== chain_id_eth) {
+      toastError('Please switch to Ethereum Mainnet!');
       return;
     }
 
@@ -310,7 +313,7 @@ function Home() {
         </Flex>
 
         <Flex fontSize='2xl'>
-          <Link mr={[2, 10]} href="" isExternal>
+          <Link mr={[2, 10]} href="https://opensea.io/collection/wowloot" isExternal>
             OpenSea <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[2, 10]} href="https://discord.gg/kKm8rZeZtJ" isExternal>
@@ -325,7 +328,7 @@ function Home() {
 
         <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            <Image src={wow} mr={[0, 20]} />
+            {/* <Image src={wow} mr={[0, 20]} /> */}
 
             <Flex direction='column' align='center'>
               <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>

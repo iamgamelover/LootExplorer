@@ -59,7 +59,7 @@ export function getNewWalletConnectInstance(): WalletConnectConnector {
 }
 
 // TODO change to mainnet
-export const chain_id_eth = 4;
+export const chain_id_eth = 1;
 export const chain_id_okChain = 65;
 export const chain_id_bsc = 97;
 export const chain_id_polygon = 80001;
