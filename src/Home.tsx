@@ -313,7 +313,7 @@ function Home() {
         </Flex>
 
         <Flex fontSize='2xl'>
-          <Link mr={[2, 10]} href="" isExternal>
+          <Link mr={[2, 10]} href="https://opensea.io/collection/wowloot" isExternal>
             OpenSea <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
           <Link mr={[2, 10]} href="https://discord.gg/kKm8rZeZtJ" isExternal>

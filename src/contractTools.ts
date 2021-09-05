@@ -4,7 +4,7 @@ import { currUserAccount, currUserAccountSigner } from './Home';
 
 // TODO change to mainnet
 const WowlootAddress = "0xa39fb2c494b457593f9cbbef4a02f799330ddfd8";
-// const WowlootAddress = "0xbec1dc145c18d69451aa56346a0add3886f88286";
+// const WowlootAddress = "0xbec1dc145c18d69451aa56346a0add3886f88286"; // Rinkeby testnet
 
 export async function claim(tokenId: number): Promise<any> {
     if (currUserAccount) {
