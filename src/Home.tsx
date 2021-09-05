@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid
 } from "@chakra-ui/react"
 import { theme } from './theme';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { MdAccountBalanceWallet, MdBuild } from "react-icons/md"
 import logo from './iconZerogoki.svg';
 import iconMetamask from './iconMetamask.svg';
@@ -335,6 +335,45 @@ function Home() {
             @Wloot01 <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
         </Flex>
+
+        <Divider mt={8} />
+
+        <Flex mt={8} mb={2} fontSize='xl'>
+          RoadMap
+        </Flex>
+
+        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(2, 90vw)', 'repeat(6, 1fr)']}
+          gap={6} mt={[0, 0]}>
+
+          <Flex align="center">
+            <Text fontSize='2xl' >Characters</Text>
+            <ArrowForwardIcon w={10} h={6} ml={6} />
+          </Flex>
+
+          <Flex align="center" w='13rem'>
+            <Text fontSize='2xl' >Ability Score</Text>
+            <ArrowForwardIcon w={10} h={6} ml={6} />
+          </Flex>
+
+          <Flex align="center">
+            <Text fontSize='2xl' >Realms</Text>
+            <ArrowForwardIcon w={10} h={6} ml={6} />
+          </Flex>
+
+          <Flex align="center">
+            <Text fontSize='2xl' >Avatars</Text>
+            <ArrowForwardIcon w={10} h={6} ml={6} />
+          </Flex>
+
+          <Flex align="center">
+            <Text fontSize='2xl' >Army</Text>
+            <ArrowForwardIcon w={10} h={6} ml={6} />
+          </Flex>
+
+          <Flex align="center">
+            <Text fontSize='2xl' >Familiars</Text>
+          </Flex>
+        </Grid>
 
         <Divider mt={8} />
 
