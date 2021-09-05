@@ -71,6 +71,15 @@ function Home() {
     })
   }
 
+  function toastInfo(msg: string) {
+    toast({
+      title: msg,
+      status: "info",
+      duration: 6000,
+      isClosable: true,
+    })
+  }
+
   // AutoConnect
   const [balance, setBalance] = useState();
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -246,6 +255,8 @@ function Home() {
       toastError('Please switch to Ethereum Mainnet!');
       return;
     }
+
+    // toastInfo('Claim emitted. Please wait for confirmation.');
 
     let res = await claim(inputBagId);
     console.info(res);
