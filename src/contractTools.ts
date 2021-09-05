@@ -16,13 +16,9 @@ export async function claim(tokenId: number): Promise<any> {
         try {
             let res = await contract.claim(tokenId);
             if (res) {
-                if (await checkTxConfirm(res.hash)) {
-                    return { "result": "ok", "hash": res.hash };
-                }
+                return { "result": "ok", "hash": res.hash };
             }
         } catch (error: any) {
-
-            console.info(error);
             let msg = error.message as string
             if (error.error) {
                 msg = error.error.message as string
@@ -42,7 +38,7 @@ export async function claim(tokenId: number): Promise<any> {
 
 
 let hashCheckCount = new Map<string, number>();
-async function checkTxConfirm(txHash: string): Promise<boolean> {
+export async function checkTxConfirm(txHash: string): Promise<boolean> {
     await sleep(6000);
     let trx: any = null;
     try {

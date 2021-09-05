@@ -18,7 +18,7 @@ import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injec
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
-import { claim } from './contractTools';
+import { checkTxConfirm, claim } from './contractTools';
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -256,13 +256,14 @@ function Home() {
       return;
     }
 
-    // toastInfo('Claim emitted. Please wait for confirmation.');
-
     let res = await claim(inputBagId);
     console.info(res);
     if (res.result === "ok") {
       // mint success
-      toastSuccess('Successfully minted! Check on the OpenSea.');
+      toastInfo('Claim emitted. Please wait for confirmation.');
+      if (await checkTxConfirm(res.hash)) {
+        toastSuccess('Successfully minted! Check on the OpenSea.');
+      }
     } else {
       // mint fail
       toastError(res.msg);
