@@ -242,11 +242,8 @@ function Home() {
       return;
     }
 
-    // TODO change to mainnet
-    // if (currChainId !== chain_id_eth) { // Ethereum Mainnet
-    if (currChainId !== chain_id_eth) { // Rinkeby Test Network
-      // toastError('Please switch to Ethereum Mainnet!');
-      toastError('Please switch to Rinkeby Test Network!');
+    if (currChainId !== chain_id_eth) {
+      toastError('Please switch to Ethereum Mainnet!');
       return;
     }
 
