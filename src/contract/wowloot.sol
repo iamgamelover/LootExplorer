@@ -1,5 +1,7 @@
+// https://etherscan.io/address/0xA39FB2C494B457593F9CBBef4a02f799330DDfd8
+
 /**
- *Submitted for verification at Etherscan.io on 2021-09-04
+ *Submitted for verification at Etherscan.io on 2021-09-05
 */
 
 /**
@@ -1292,288 +1294,433 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
 }
 
 
-contract TemporalLoot is ERC721Enumerable, ReentrancyGuard, Ownable {
+contract WowLoot is ERC721Enumerable, ReentrancyGuard, Ownable {
 
-        string[] private weapons = [
-        "Warhammer",
-        "Quarterstaff",
-        "Maul",
-        "Mace",
-        "Club",
-        "Katana",
-        "Falchion",
-        "Scimitar",
-        "Long Sword",
-        "Short Sword",
-        "Ghost Wand",
-        "Grave Wand",
-        "Bone Wand",
-        "Wand",
+    string[] private weapons = [
+        "Warglaive of Azzinoth",
+        "Infinity Blade",
+        "Thori'dal, the Stars' Fury",
+        "Fang of Kalecgos",
+        "Dragonscale-Encrusted Longblade",
+        "Devastation",
+        "Netherstrand Longbow",
+        "Crux of the Apocalypse",
+        "Tempest of Chaos",
+        "Black Bow of the Betrayer",
+        "Shard of Azzinoth",
+        "Cataclysm's Edge",
+        "Reign of Misery",
+        "Muramasa",
         "Grimoire",
-        "Chronicle",
-        "Tome",
-        "Book"
+        "Sunflare",
+        "Grip of Mannoroth",
+        "Brutal Gladiator's Longbow"
+        "Infinity Blade",
+        "Blood Groove Blade",
+        "Gladiator Greatblade",
+        "Farstrider Sword",
+        "Copper Dagger",
+        "Forsaken Bastard Sword",
+        "Battleworn Claymore",
+        "Rock Hammer",
+        "Giant Mace",
+        "Thicket Hammer",
+        "Beatstick",
+        "Kobold Mining Sshovel",
+        "Large Club",
+        "The Shell Cracker",
+        "Bearded Axe",
+        "Rock Chipper",
+        "Tabar",
+        "Razor Sharp Fillet Knife",
+        "Rondel",
+        "Main Gauche",
+        "Kris",
+        "Poniard"
     ];
     
     string[] private chestArmor = [
-        "Divine Robe",
-        "Silk Robe",
-        "Linen Robe",
-        "Robe",
-        "Shirt",
-        "Demon Husk",
-        "Dragonskin Armor",
-        "Studded Leather Armor",
-        "Hard Leather Armor",
-        "Leather Armor",
-        "Holy Chestplate",
-        "Ornate Chestplate",
-        "Plate Mail",
-        "Chain Mail",
-        "Ring Mail"
+        "Warharness of Reckless Fury",
+        "Heroic Judicator's Chestguard",
+        "Hard Khorium Battleplate",
+        "Sunblessed Breastplate",
+        "Breastplate of Agony's Aversion",
+        "Noble Judicator's Chestguard",
+        "Brutal Gladiator's Lamellar Chestpiece",
+        "Brutal Gladiator's Ornamented Chestguard",
+        "Brutal Gladiator's Plate Chestpiece",
+        "Brutal Gladiator's Scaled Chestpiece",
+        "Savior's Grasp",
+        "Bulwark of the Ancient Kings",
+        "Onslaught Breastplate",
+        "Onslaught Chestguard",
+        "Lightbringer Breastplate",
+        "Lightbringer Chestguard",
+        "Lightbringer Chestpiece",
+        "Vengeful Gladiator's Lamellar Chestpiece",
+        "Vengeful Gladiator's Ornamented Chestguard",
+        "Vengeful Gladiator's Plate Chestpiece",
+        "Vengeful Gladiator's Scaled Chestpiece",
+        "Glory of the Defender",
+        "Heartshatter Breastplate",
+        "Ecclesiastical Cuirass",
+        "Chestplate of Stoicism",
+        "Breastplate of Ire",
+        "Shattrath Protectorate's Breastplate",
+        "Krakken-Heart Breastplate",
+        "Merciless Gladiator's Plate Chestpiece",
+        "Merciless Gladiator's Lamellar Chestpiece",
+        "Merciless Gladiator's Ornamented Chestguard",
+        "Merciless Gladiator's Scaled Chestpiece",
+        "Destroyer Chestguard",
+        "Destroyer Breastplate",
+        "Crystalforge Chestguard",
+        "Crystalforge Breastplate",
+        "Crystalforge Chestpiece",
+        "Chestguard of the Warlord",
+        "Glowing Breastplate of Truth",
+        "Bloodstained Elven Battlevest"
     ];
     
     string[] private headArmor = [
-        "Ancient Helm",
-        "Ornate Helm",
-        "Great Helm",
-        "Full Helm",
-        "Helm",
-        "Demon Crown",
-        "Dragon's Crown",
-        "War Cap",
-        "Leather Cap",
-        "Cap",
-        "Crown",
-        "Divine Hood",
-        "Silk Hood",
-        "Linen Hood",
-        "Hood"
-    ];
-    
-    string[] private waistArmor = [
-        "Ornate Belt",
-        "War Belt",
-        "Plated Belt",
-        "Mesh Belt",
-        "Heavy Belt",
-        "Demonhide Belt",
-        "Dragonskin Belt",
-        "Studded Leather Belt",
-        "Hard Leather Belt",
-        "Leather Belt",
-        "Brightsilk Sash",
-        "Silk Sash",
-        "Wool Sash",
-        "Linen Sash",
-        "Sash"
+        "Helm of Burning Righteousness",
+        "Crown of Anasterian",
+        "Mayhem Projection Goggles",
+        "Hard Khorium Goggles",
+        "Crown of Dath'Remar",
+        "Helm of Uther's Resolve",
+        "Brutal Gladiator's Lamellar Helm",
+        "Brutal Gladiator's Ornamented Headcover",
+        "Brutal Gladiator's Plate Helm",
+        "Brutal Gladiator's Scaled Helm",
+        "Justicebringer 3000 Specs",
+        "Faceplate of the Impenetrable",
+        "Onslaught Battle-Helm",
+        "Onslaught Greathelm",
+        "Lightbringer Faceguard",
+        "Lightbringer Greathelm",
+        "Lightbringer War-Helm",
+        "Vengeful Gladiator's Lamellar Helm",
+        "Vengeful Gladiator's Ornamented Headcover",
+        "Vengeful Gladiator's Plate Helm",
+        "Vengeful Gladiator's Scaled Helm",
+        "Crown of Empowered Fate",
+        "Helm of the Illidari Shatterer",
+        "Merciless Gladiator's Plate Helm",
+        "Merciless Gladiator's Lamellar Helm",
+        "Merciless Gladiator's Ornamented Headcover",
+        "Merciless Gladiator's Scaled Helm",
+        "Destroyer Greathelm",
+        "Destroyer Battle-Helm",
+        "Crystalforge Faceguard",
+        "Crystalforge War-Helm",
+        "Crystalforge Greathelm",
+        "Battleworn Tuskguard",
+        "Fel-Steel Warhelm",
+        "Brighthelm of Justice",
+        "Mask of Introspection",
+        "Amani Mask of Death",
+        "Furious Gizmatic Goggles",
+        "Justicebringer 2000 Specs",
+        "Tankatronic Goggles"
     ];
     
     string[] private footArmor = [
-        "Holy Greaves",
-        "Ornate Greaves",
-        "Greaves",
-        "Chain Boots",
-        "Heavy Boots",
-        "Demonhide Boots",
-        "Dragonskin Boots",
-        "Studded Leather Boots",
-        "Hard Leather Boots",
-        "Leather Boots",
-        "Divine Slippers",
-        "Silk Slippers",
-        "Wool Shoes",
-        "Linen Shoes",
-        "Shoes"
+        "Starstalker Legguards",
+        "Chain Links of the Tumultuous Storm",
+        "Kilt of Spiritual Reconstruction",
+        "Brutal Gladiator's Chain Leggings",
+        "Brutal Gladiator's Linked Leggings",
+        "Brutal Gladiator's Mail Leggings",
+        "Brutal Gladiator's Ringmail Leggings",
+        "Gronnstalker's Leggings",
+        "Skyshatter Leggings",
+        "Skyshatter Legguards",
+        "Skyshatter Pants",
+        "Vengeful Gladiator's Chain Leggings",
+        "Vengeful Gladiator's Linked Leggings",
+        "Vengeful Gladiator's Mail Leggings",
+        "Vengeful Gladiator's Ringmail Leggings",
+        "Sun-touched Chain Leggings",
+        "Bow-stitched Leggings",
+        "Leggings of the Pursuit",
+        "Runed Scales of Antiquity",
+        "Rushing Storm Kilt",
+        "Sunhawk Leggings",
+        "Merciless Gladiator's Chain Leggings",
+        "Merciless Gladiator's Linked Leggings",
+        "Merciless Gladiator's Mail Leggings",
+        "Merciless Gladiator's Ringmail Leggings",
+        "Rift Stalker Leggings",
+        "Cataclysm Legguards",
+        "Cataclysm Leggings",
+        "Cataclysm Legplates",
+        "Greaves of Shackled Souls",
+        "Void Reaver Greaves",
+        "Shifting Camouflage Pants",
+        "Natural Life Leggings",
+        "Avalanche Leggings",
+        "Gladiator's Linked Leggings",
+        "Gladiator's Mail Leggings",
+        "Gladiator's Chain Leggings",
+        "Gladiator's Ringmail Leggings",
+        "Cyclone Kilt",
+        "Cyclone Legguards"
     ];
     
     string[] private handArmor = [
-        "Holy Gauntlets",
-        "Ornate Gauntlets",
-        "Gauntlets",
-        "Chain Gloves",
-        "Heavy Gloves",
-        "Demon's Hands",
-        "Dragonskin Gloves",
-        "Studded Leather Gloves",
-        "Hard Leather Gloves",
-        "Leather Gloves",
-        "Divine Gloves",
-        "Silk Gloves",
-        "Wool Gloves",
-        "Linen Gloves",
-        "Gloves"
+        "Thalassian Ranger Gauntlets",
+        "Fletcher's Gloves of the Phoenix",
+        "Sun-Drenched Scale Gloves",
+        "Gauntlets of the Ancient Frostwolf",
+        "Brutal Gladiator's Chain Gauntlets",
+        "Brutal Gladiator's Linked Gauntlets",
+        "Brutal Gladiator's Mail Gauntlets",
+        "Brutal Gladiator's Ringmail Gauntlets",
+        "Gauntlets of the Ancient Shadowmoon",
+        "Gronnstalker's Gloves",
+        "Skyshatter Gloves",
+        "Skyshatter Gauntlets",
+        "Skyshatter Grips",
+        "Vengeful Gladiator's Chain Gauntlets",
+        "Vengeful Gladiator's Linked Gauntlets",
+        "Vengeful Gladiator's Mail Gauntlets",
+        "Vengeful Gladiator's Ringmail Gauntlets",
+        "Fists of Mukoa",
+        "Spiritwalker Gauntlets",
+        "Gauntlets of Rapidity",
+        "Merciless Gladiator's Chain Gauntlets",
+        "Merciless Gladiator's Linked Gauntlets",
+        "Merciless Gladiator's Mail Gauntlets",
+        "Merciless Gladiator's Ringmail Gauntlets",
+        "Rift Stalker Gauntlets",
+        "Cataclysm Gloves",
+        "Cataclysm Handgrips",
+        "Cataclysm Gauntlets",
+        "Worldstorm Gauntlets",
+        "Gauntlets of Sniping",
+        "Polished Waterscale Gloves",
+        "Grips of Nature's Wrath",
+        "Gauntlets of the Dragonslayer",
+        "Gladiator's Linked Gauntlets",
+        "Gladiator's Mail Gauntlets",
+        "Gladiator's Chain Gauntlets",
+        "Gladiator's Ringmail Gauntlets",
+        "Cyclone Gloves",
+        "Cyclone Handguards",
+        "Cyclone Gauntlets"
     ];
     
     string[] private necklaces = [
-        "Necklace",
-        "Amulet",
-        "Pendant"
+        "Blackened Naaru Sliver",
+        "Steely Naaru Sliver",
+        "Shifting Naaru Sliver",
+        "Glimmering Naaru Sliver",
+        "The Skull of Gul'dan",
+        "Memento of Tyrande",
+        "Ashtongue Talisman of Valor",
+        "Ashtongue Talisman of Equilibrium",
+        "Ashtongue Talisman of Swiftness",
+        "Ashtongue Talisman of Insight",
+        "Ashtongue Talisman of Zeal",
+        "Ashtongue Talisman of Acumen",
+        "Ashtongue Talisman of Vision",
+        "Ashtongue Talisman of Lethality",
+        "Ashtongue Talisman of Shadows",
+        "Shadowmoon Insignia",
+        "Madness of the Betrayer",
+        "Prism of Inner Calm",
+        "Tome of Diabolic Remedy",
+        "Hex Shrunken Head",
+        "Ancient Aqir Artifact",
+        "Berserker's Call",
+        "Battlemaster's Determination",
+        "Battlemaster's Audacity",
+        "Battlemaster's Perseverance",
+        "Battlemaster's Depravity",
+        "Battlemaster's Cruelty",
+        "Battlemaster's Cruelty",
+        "Battlemaster's Depravity",
+        "Battlemaster's Determination",
+        "Battlemaster's Audacity",
+        "Battlemaster's Perseverance",
+        "Battlemaster's Alacrity",
+        "Battlemaster's Alacrity",
+        "Solarian's Sapphire",
+        "Tome of Fiery Redemption",
+        "Talon of Al'ar",
+        "Void Star Talisman",
+        "Warp-Spring Coil",
+        "Fel Reaver's Piston"
     ];
     
     string[] private rings = [
-        "Gold Ring",
-        "Silver Ring",
-        "Bronze Ring",
-        "Platinum Ring",
-        "Titanium Ring"
+        "Hard Khorium Band",
+        "Loop of Forged Power",
+        "Ring of Flowing Life",
+        "Band of Lucent Beams",
+        "Band of Ruinous Delight",
+        "Ring of Hardened Resolve",
+        "Ring of Omnipotence",
+        "Guardian's Band of Dominance",
+        "Guardian's Band of Salvation",
+        "Guardian's Band of Triumph",
+        "Ring of Harmonic Beauty",
+        "Guardian's Band of Subjugation",
+        "Band of the Eternal Defender",
+        "Band of the Eternal Champion",
+        "Band of the Eternal Sage",
+        "Band of the Eternal Restorer",
+        "Stormrage Signet Ring",
+        "Band of Devastation",
+        "Ring of Ancient Knowledge",
+        "Blessed Band of Karabor",
+        "Band of Eternity",
+        "Band of Eternity",
+        "The 2 Ring",
+        "Ring of Calming Waves",
+        "Ring of Captured Storms",
+        "Band of the Abyssal Lord",
+        "Ring of Deceitful Intent",
+        "Unstoppable Aggressor's Ring",
+        "Signet of Primal Wrath",
+        "Mana Attuned Band",
+        "Signet of the Quiet Forest",
+        "Signet of the Last Defender",
+        "Signet of Eternal Life",
+        "Vindicator's Band of Dominance",
+        "Vindicator's Band of Salvation",
+        "Vindicator's Band of Triumph",
+        "Angelista's Revenge",
+        "Ring of the Stalwart Protector",
+        "Fused Nethergon Band",
+        "Anveena's Touch"
     ];
     
-    string[] private suffixes = [
-        "of Power",
-        "of Giants",
-        "of Titans",
-        "of Skill",
-        "of Perfection",
-        "of Brilliance",
-        "of Enlightenment",
-        "of Protection",
-        "of Anger",
-        "of Rage",
-        "of Fury",
-        "of Vitriol",
-        "of the Fox",
-        "of Detection",
-        "of Reflection",
-        "of the Twins"
-    ];
-    
-    string[] private namePrefixes = [
-        "Agony", "Apocalypse", "Armageddon", "Beast", "Behemoth", "Blight", "Blood", "Bramble", 
-        "Brimstone", "Brood", "Carrion", "Cataclysm", "Chimeric", "Corpse", "Corruption", "Damnation", 
-        "Death", "Demon", "Dire", "Dragon", "Dread", "Doom", "Dusk", "Eagle", "Empyrean", "Fate", "Foe", 
-        "Gale", "Ghoul", "Gloom", "Glyph", "Golem", "Grim", "Hate", "Havoc", "Honour", "Horror", "Hypnotic", 
-        "Kraken", "Loath", "Maelstrom", "Mind", "Miracle", "Morbid", "Oblivion", "Onslaught", "Pain", 
-        "Pandemonium", "Phoenix", "Plague", "Rage", "Rapture", "Rune", "Skull", "Sol", "Soul", "Sorrow", 
-        "Spirit", "Storm", "Tempest", "Torment", "Vengeance", "Victory", "Viper", "Vortex", "Woe", "Wrath",
-        "Light's", "Shimmering"  
-    ];
-    
-    string[] private nameSuffixes = [
-        "Bane",
-        "Root",
-        "Bite",
-        "Song",
-        "Roar",
-        "Grasp",
-        "Instrument",
-        "Glow",
-        "Bender",
-        "Shadow",
-        "Whisper",
-        "Shout",
-        "Growl",
-        "Tear",
-        "Peak",
-        "Form",
-        "Sun",
-        "Moon"
+    string[] private rarity = [
+        "#FF8000",
+        "#A335EE",
+        "#0070DD",
+        "#1AF108",
+        "#F1FFF1"
     ];
     
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
     }
     
-    function getWeapon(uint256 tokenId) public view returns (string memory) {
+    function getWeapon(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "WEAPON", weapons);
     }
     
-    function getChest(uint256 tokenId) public view returns (string memory) {
+    function getChest(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "CHEST", chestArmor);
     }
     
-    function getHead(uint256 tokenId) public view returns (string memory) {
+    function getHead(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "HEAD", headArmor);
     }
-    
-    function getWaist(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "WAIST", waistArmor);
-    }
 
-    function getFoot(uint256 tokenId) public view returns (string memory) {
+    function getFoot(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "FOOT", footArmor);
     }
     
-    function getHand(uint256 tokenId) public view returns (string memory) {
+    function getHand(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "HAND", handArmor);
     }
     
-    function getNeck(uint256 tokenId) public view returns (string memory) {
+    function getNeck(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "NECK", necklaces);
     }
     
-    function getRing(uint256 tokenId) public view returns (string memory) {
+    function getRing(uint256 tokenId) public view returns (string memory, string memory) {
         return pluck(tokenId, "RING", rings);
     }
-    
-    function pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory) {
+
+    function pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory, string memory) {
         uint256 rand = random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
+        
         string memory output = sourceArray[rand % sourceArray.length];
-        uint256 greatness = rand % 21;
-        if (greatness > 14) {
-            output = string(abi.encodePacked(output, " ", suffixes[rand % suffixes.length]));
+        uint256 greatness = rand % 100;
+        if (greatness < 4) {
+            output = string(abi.encodePacked(output, " +1"));
         }
-        if (greatness >= 19) {
-            string[2] memory name;
-            name[0] = namePrefixes[rand % namePrefixes.length];
-            name[1] = nameSuffixes[rand % nameSuffixes.length];
-            if (greatness == 19) {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output));
-            } else {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output, " +1"));
-            }
+
+        string memory outputRarity;
+        uint256 greatness2 = rand % 40;
+        if (greatness2 < 2) {
+            outputRarity = rarity[0];
+        } else if (greatness2 < 6) {
+            outputRarity = rarity[1];
+        } else if (greatness2 < 12) {
+            outputRarity = rarity[2];
+        } else if (greatness2 < 22) {
+            outputRarity = rarity[3];
+        } else {
+            outputRarity = rarity[4];
         }
-        return output;
+
+        return (outputRarity, output);
     }
 
     function tokenURI(uint256 tokenId) override public view returns (string memory) {
-        string[17] memory parts;
-        parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
+        string[29] memory parts;
+        parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base" stroke="';
 
-        parts[1] = getWeapon(tokenId);
+        (parts[1], parts[3]) = getWeapon(tokenId);
+        parts[2] = '">';
 
-        parts[2] = '</text><text x="10" y="40" class="base">';
+        parts[4] = '</text><text x="10" y="40" class="base" stroke="';
 
-        parts[3] = getChest(tokenId);
+        (parts[5], parts[7]) = getChest(tokenId);
+        parts[6] = '">';
 
-        parts[4] = '</text><text x="10" y="60" class="base">';
+        parts[8] = '</text><text x="10" y="60" class="base" stroke="';
 
-        parts[5] = getHead(tokenId);
+        (parts[9], parts[11]) = getHead(tokenId);
+        parts[10] = '">';
 
-        parts[6] = '</text><text x="10" y="80" class="base">';
+        parts[12] = '</text><text x="10" y="80" class="base" stroke="';
 
-        parts[7] = getWaist(tokenId);
+        (parts[13], parts[15]) = getFoot(tokenId);
+        parts[14] = '">';
 
-        parts[8] = '</text><text x="10" y="100" class="base">';
+        parts[16] = '</text><text x="10" y="100" class="base" stroke="';
 
-        parts[9] = getFoot(tokenId);
+        (parts[17], parts[19]) = getHand(tokenId);
+        parts[18] = '">';
 
-        parts[10] = '</text><text x="10" y="120" class="base">';
+        parts[20] = '</text><text x="10" y="120" class="base" stroke="';
 
-        parts[11] = getHand(tokenId);
+        (parts[21], parts[23]) = getNeck(tokenId);
+        parts[22] = '">';
 
-        parts[12] = '</text><text x="10" y="140" class="base">';
+        parts[24] = '</text><text x="10" y="140" class="base" stroke="';
 
-        parts[13] = getNeck(tokenId);
+        (parts[25], parts[27]) = getRing(tokenId);
+        parts[26] = '">';
 
-        parts[14] = '</text><text x="10" y="160" class="base">';
-
-        parts[15] = getRing(tokenId);
-
-        parts[16] = '</text></svg>';
+        parts[28] = '</text></svg>';
 
         string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
         output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
+        output = string(abi.encodePacked(output, parts[17], parts[18], parts[19], parts[20], parts[21], parts[22], parts[23], parts[24]));
+        output = string(abi.encodePacked(output, parts[25], parts[26], parts[27], parts[28]));
         
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Bag #', toString(tokenId), '", "description": "More Loot is additional randomized adventurer gear generated and stored on chain. Maximum supply is dynamic, increasing at 1/10th of Ethereum\'s block rate. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use More Loot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "Bag #', toString(tokenId), '", "description": "WOW Loot is a Meme Loot originated from World of Warcraft as well as a randomized adventurer gear operating on the chain. Keeping a wow loot in the wallet can gradually unlock all the rewards in Azeroth. Feel free to try Wow Loot as you like.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
         output = string(abi.encodePacked('data:application/json;base64,', json));
 
         return output;
     }
 
     function claim(uint256 tokenId) public nonReentrant {
-        require(tokenId > 8000 && tokenId < (block.number / 10) + 1, "Token ID invalid");
+        require(tokenId > 0 && tokenId < 7778, "Token ID invalid");
         _safeMint(_msgSender(), tokenId);
+    }
+    
+    function ownerClaim(uint256 tokenId) public nonReentrant onlyOwner {
+        require(tokenId > 7777 && tokenId < 8001, "Token ID invalid");
+        _safeMint(owner(), tokenId);
     }
     
     function toString(uint256 value) internal pure returns (string memory) {
@@ -1598,7 +1745,7 @@ contract TemporalLoot is ERC721Enumerable, ReentrancyGuard, Ownable {
         return string(buffer);
     }
     
-    constructor() ERC721("More Loot", "MLOOT") Ownable() {}
+    constructor() ERC721("WowLoot", "WOWLOOT") Ownable() {}
 }
 
 /// [MIT License]
