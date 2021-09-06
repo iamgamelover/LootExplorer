@@ -342,32 +342,32 @@ function Home() {
           RoadMap
         </Flex>
 
-        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(2, 90vw)', 'repeat(6, 1fr)']}
+        <Grid templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(6, 1fr)']}
           gap={6} mt={[0, 0]}>
 
           <Flex align="center">
             <Text fontSize='2xl' >Characters</Text>
-            <ArrowForwardIcon w={10} h={6} ml={6} />
+            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
           </Flex>
 
-          <Flex align="center" w='13rem'>
+          <Flex align="center" w={['10rem', '13rem']}>
             <Text fontSize='2xl' >Ability Score</Text>
-            <ArrowForwardIcon w={10} h={6} ml={6} />
+            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
           </Flex>
 
           <Flex align="center">
             <Text fontSize='2xl' >Realms</Text>
-            <ArrowForwardIcon w={10} h={6} ml={6} />
+            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
           </Flex>
 
           <Flex align="center">
             <Text fontSize='2xl' >Avatars</Text>
-            <ArrowForwardIcon w={10} h={6} ml={6} />
+            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
           </Flex>
 
           <Flex align="center">
             <Text fontSize='2xl' >Army</Text>
-            <ArrowForwardIcon w={10} h={6} ml={6} />
+            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
           </Flex>
 
           <Flex align="center">
