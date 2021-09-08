@@ -276,7 +276,7 @@ function Home() {
     <Center px={[2, 0]}>
       <Flex direction='column' w={['100%', '80%']} px={[2, 20]} py={[2, 10]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
-          <Text fontSize='6xl' mb={[2, 0]}>WOW LOOT</Text>
+          <Text fontSize='6xl' mb={[2, 0]}>LootExplorer</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
             <ConnectWalletModal />
