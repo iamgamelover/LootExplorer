@@ -276,7 +276,7 @@ function Home() {
     <Center px={[2, 0]}>
       <Flex direction='column' w={['100%', '80%']} px={[2, 20]} py={[2, 10]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
-          <Text fontSize='6xl' mb={[2, 0]}>LootExplorer</Text>
+          <Text fontSize='6xl' mb={[2, 0]}>Loot Explorer</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
             <ConnectWalletModal />
@@ -287,21 +287,51 @@ function Home() {
           By @Duet
         </Flex> */}
 
-        <Flex w={['100%', '70%']} mt={[10, 3]} fontSize='xl' color='gray'>
-          WOW Loot is an independent universe located on the earth of Azeroth and
+        <Flex w={['100%', '70%']} mt={[10, 3]} fontSize='xl' color='white'>
+          Loot Explorer is an independent universe located on the earth of Azeroth and
           Outland during the period of the Burning Crusade.
         </Flex>
 
-        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
+        <Center mb={[10, 10]}>
+          <Flex direction={['column', 'row']} mt={10}>
+            {/* <Image src={wow} mr={[0, 20]} /> */}
+
+            <Flex direction='column' align='center'>
+              <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
+                Begin your journey through Azeroth
+              </Flex>
+
+              <NumberInput w={['15rem', '15rem']} mb={[8, 7]} >
+                <NumberInputField color='yellow' value={inputBagId} placeholder="Enter Bag ID"
+                  onChange={(e) => {
+                    setInputBagId(parseInt(e.target.value));
+                  }} />
+                {/* <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper> */}
+              </NumberInput>
+
+              <Flex>
+                <Button px={10} leftIcon={<MdBuild />} onClick={clickClaimBtn}
+                  colorScheme="pink" variant="solid">
+                  Claim WOW LOOT
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Center>
+
+        {/* <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           The Doom Lord Kazzak reopened the Dark Portal to Outland, plaguing Azeroth
           with the ravenous demons of the Burning Legion. The Expeditionary Army from
           the Horde and Alliance passed through the gateway to resist the invasion at the frontend.
-        </Flex>
+        </Flex> */}
 
-        <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
+        {/* <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           Comrades, let us pick up our swords and scepters and get our hands armed.
           Let's fight our enemies together!
-        </Flex>
+        </Flex> */}
 
         <Flex mt={10} mb={5} fontSize='xl'>
           Links to origin of the Loots:
@@ -338,74 +368,6 @@ function Home() {
 
         <Divider mt={8} />
 
-        <Flex mt={8} mb={2} fontSize='xl'>
-          RoadMap
-        </Flex>
-
-        <Grid templateColumns={['repeat(2, 1fr)', 'repeat(2, 1fr)', 'repeat(6, 1fr)']}
-          gap={6} mt={[0, 0]}>
-
-          <Flex align="center">
-            <Text fontSize='2xl' >Characters</Text>
-            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
-          </Flex>
-
-          <Flex align="center" w={['10rem', '13rem']}>
-            <Text fontSize='2xl' >Ability Score</Text>
-            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
-          </Flex>
-
-          <Flex align="center">
-            <Text fontSize='2xl' >Realms</Text>
-            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
-          </Flex>
-
-          <Flex align="center">
-            <Text fontSize='2xl' >Avatars</Text>
-            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
-          </Flex>
-
-          <Flex align="center">
-            <Text fontSize='2xl' >Army</Text>
-            <ArrowForwardIcon w={[5, 10]} h={6} ml={[2, 6]} />
-          </Flex>
-
-          <Flex align="center">
-            <Text fontSize='2xl' >Familiars</Text>
-          </Flex>
-        </Grid>
-
-        <Divider mt={8} />
-
-        <Center mb={[10, 10]}>
-          <Flex direction={['column', 'row']} mt={10}>
-            {/* <Image src={wow} mr={[0, 20]} /> */}
-
-            <Flex direction='column' align='center'>
-              <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
-                Begin your journey through Azeroth
-              </Flex>
-
-              <NumberInput w={['15rem', '15rem']} mb={[8, 7]} >
-                <NumberInputField value={inputBagId} placeholder="Enter Bag ID"
-                  onChange={(e) => {
-                    setInputBagId(parseInt(e.target.value));
-                  }} />
-                {/* <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper> */}
-              </NumberInput>
-
-              <Flex>
-                <Button px={10} leftIcon={<MdBuild />} onClick={clickClaimBtn}
-                  colorScheme="pink" variant="solid">
-                  Claim WOW LOOT
-                </Button>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Center>
       </Flex>
     </Center>
   );
