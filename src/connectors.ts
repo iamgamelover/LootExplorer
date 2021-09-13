@@ -20,7 +20,7 @@ export const RPC_URLS = {
 };
 
 
-export function getRpcUrl(index:number){
+export function getRpcUrl(index: number) {
   switch (index) {
     case 1:
     case 2:
@@ -35,7 +35,7 @@ export function getRpcUrl(index:number){
     case 80001:
     case 256:
       return RPC_URLS[index]
-  
+
     default:
       break;
   }

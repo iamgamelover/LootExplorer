@@ -18,7 +18,7 @@ import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injec
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
-import { checkTxConfirm, claim } from './contractTools';
+import { bag, checkTxConfirm, claim, tokenURI } from './contractTools';
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -38,6 +38,7 @@ export const chainName = new Map([
 
 function Home() {
   console.info('currUserAccount: ', currUserAccount);
+  console.info('currUserAccountSigner: ', currUserAccountSigner);
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -245,6 +246,14 @@ function Home() {
   }
 
   async function clickClaimBtn() {
+    // 👁️ Bag #1000 (an OG Loot)
+    // var mybag = await bag(1000);
+    // var mybag = await tokenURI(1000);
+    var mybag = await claim(inputBagId);
+    console.log(mybag);
+  }
+
+  async function ogCickClaimBtn() {
 
     if (currUserAccount === undefined) { // Not connected to a wallet
       toastError('Please connect to a wallet first!');
