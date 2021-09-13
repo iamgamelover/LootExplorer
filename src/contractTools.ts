@@ -1,11 +1,13 @@
 import { Contract, ethers } from 'ethers';
 import Web3 from 'web3';
 import lootABI from './abis/loot.json'
+import synthLootABI from './abis/synthLoot.json'
 import { default_rpc_url } from './connectors';
 import { currUserAccount, currUserAccountSigner } from './Home';
 
 const lootAddress = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
 const moreLootAddress = "0x1dfe7ca09e99d10835bf73044a23b73fc20623df";
+const synthLootAddress = "0x869Ad3Dfb0F9ACB9094BA85228008981BE6DBddE";
 
 const web3: Web3 = new Web3(new Web3.providers.HttpProvider(default_rpc_url));
 
@@ -32,6 +34,40 @@ export async function bag(lootId: number): Promise<any> {
     let bag = {
       id: lootId,
       type: type,
+      chest: chest,
+      foot: foot,
+      hand: hand,
+      head: head,
+      neck: neck,
+      ring: ring,
+      waist: waist,
+      weapon: weapon,
+    }
+
+    return bag;
+  }
+
+  return {};
+}
+
+export async function synthLootBag(walletAddress: string): Promise<any> {
+  const loot = new ethers.Contract(synthLootAddress, synthLootABI, currUserAccountSigner);
+
+  if (walletAddress !== undefined || walletAddress !== '') {
+    const [chest, foot, hand, head, neck, ring, waist, weapon] =
+      await Promise.all([
+        loot.getChest(walletAddress),
+        loot.getFoot(walletAddress),
+        loot.getHand(walletAddress),
+        loot.getHead(walletAddress),
+        loot.getNeck(walletAddress),
+        loot.getRing(walletAddress),
+        loot.getWaist(walletAddress),
+        loot.getWeapon(walletAddress),
+      ]);
+
+    let bag = {
+      id: walletAddress,
       chest: chest,
       foot: foot,
       hand: hand,

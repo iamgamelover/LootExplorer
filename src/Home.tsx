@@ -18,7 +18,7 @@ import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injec
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
-import { bag, checkTxConfirm, claim, tokenURI } from './contractTools';
+import { bag, checkTxConfirm, claim, synthLootBag, tokenURI } from './contractTools';
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -249,7 +249,8 @@ function Home() {
     // 👁️ Bag #1000 (an OG Loot)
     // var mybag = await bag(1000);
     // var mybag = await tokenURI(1000);
-    var mybag = await claim(inputBagId);
+    // var mybag = await claim(inputBagId);
+    var mybag = await synthLootBag('0xdE87541D9D34E8643a5AeeAA6C68C2De23881EF0');
     console.log(mybag);
   }
 
