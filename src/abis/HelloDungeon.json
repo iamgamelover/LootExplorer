@@ -1,0 +1,251 @@
+[
+    {
+        "inputs": [],
+        "name": "activityDescription",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "activityName",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "bosses",
+        "outputs": [
+            {
+                "internalType": "int32",
+                "name": "hp",
+                "type": "int32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "spawnBlock",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "killBlock",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "bossId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint8",
+                "name": "amount",
+                "type": "uint8"
+            }
+        ],
+        "name": "claimSpoils",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "fight",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "fightBoss",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "mechanics",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "purityLevel",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "weaknessLevel",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "damageLevel",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "stunLevel",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "bossSpawned",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "currentBossId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "lastBossSpawnTime",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "spawnBoss",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "spoilsInventory",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "fang",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tail",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "mantle",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "horn",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "claw",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "eye",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "heart",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct HelloDungeon.Spoils",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "bossId",
+                "type": "uint256"
+            }
+        ],
+        "name": "spoilsUnclaimed",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "adventurer",
+                "type": "address"
+            }
+        ],
+        "name": "xpForAdventurer",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "xpName",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    }
+]

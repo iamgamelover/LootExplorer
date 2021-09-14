@@ -2,14 +2,27 @@ import { Contract, ethers } from 'ethers';
 import Web3 from 'web3';
 import lootABI from './abis/loot.json'
 import synthLootABI from './abis/synthLoot.json'
+import HelloDungeonABI from './abis/HelloDungeon.json'
 import { default_rpc_url } from './connectors';
 import { currUserAccount, currUserAccountSigner } from './Home';
 
 const lootAddress = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
 const moreLootAddress = "0x1dfe7ca09e99d10835bf73044a23b73fc20623df";
 const synthLootAddress = "0x869Ad3Dfb0F9ACB9094BA85228008981BE6DBddE";
+const synthLootAddressOnPolygon = "0x1F654D1105C27e631Dd5aF20B76100750c755741";
+const helloDungeonAddressOnPolygon = "0x167D0f495c59ec75Af0190516dE3b60720CAc956";
 
 const web3: Web3 = new Web3(new Web3.providers.HttpProvider(default_rpc_url));
+
+export async function xpName(): Promise<any> {
+  const contract = new ethers.Contract(helloDungeonAddressOnPolygon, HelloDungeonABI, currUserAccountSigner);
+  let res = await contract.fight();
+  // let res = await contract.xpName();
+  if (res) {
+    console.info('xpName == ', res)
+    return res;
+  }
+}
 
 export async function bag(lootId: number): Promise<any> {
   const ogloot = new ethers.Contract(lootAddress, lootABI, currUserAccountSigner);
@@ -51,7 +64,8 @@ export async function bag(lootId: number): Promise<any> {
 }
 
 export async function synthLootBag(walletAddress: string): Promise<any> {
-  const loot = new ethers.Contract(synthLootAddress, synthLootABI, currUserAccountSigner);
+  const loot = new ethers.Contract(synthLootAddressOnPolygon, synthLootABI, currUserAccountSigner);
+  // const loot = new ethers.Contract(synthLootAddress, synthLootABI, currUserAccountSigner);
 
   if (walletAddress !== undefined || walletAddress !== '') {
     const [chest, foot, hand, head, neck, ring, waist, weapon] =
