@@ -71,23 +71,46 @@ export async function mechanics(): Promise<any> {
 
 export async function spawnBoss(): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
-  let res = await contract.spawnBoss();
-  if (res) {
-    return res;
+
+  try {
+    let res = await contract.spawnBoss();
+    if (res) {
+      return { "result": "ok", "hash": res.hash };
+    }
+  } catch (error: any) {
+    return { "result": "error", "msg": error.message };
   }
 }
 
 export async function fightBoss(): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
-  let res = await contract.fightBoss();
-  if (res) {
-    return res;
+
+  try {
+    let res = await contract.fightBoss();
+    if (res) {
+      return { "result": "ok", "hash": res.hash };
+    }
+  } catch (error: any) {
+    // let msg = error.message as string
+    // if (error.error) {
+    //   msg = error.error.message as string
+    // }
+
+    // let prefix = "MetaMask Tx Signature: "
+    // if (msg.startsWith("MetaMask Tx Signature: ") === false) {
+    //   prefix = "execution reverted: "
+    // }
+
+    // return { "result": "error", "msg": msg.substr(prefix.length) };
+
+    return { "result": "error", "msg": error.message };
   }
 }
 
 export async function spoilsUnclaimed(address: string, bossId: number): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
   let res = await contract.spoilsUnclaimed(address, bossId);
+  console.info('spoilsUnclaimed = ', res);
   if (res) {
     return res;
   }
@@ -96,6 +119,7 @@ export async function spoilsUnclaimed(address: string, bossId: number): Promise<
 export async function spoilsInventory(address: string): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
   let res = await contract.spoilsInventory(address);
+  console.info('spoilsInventory = ', res);
   if (res) {
     return res;
   }
@@ -103,9 +127,14 @@ export async function spoilsInventory(address: string): Promise<any> {
 
 export async function claimSpoils(bossId: number, amount: number): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
-  let res = await contract.claimSpoils(bossId, amount);
-  if (res) {
-    return res;
+  
+  try {
+    let res = await contract.claimSpoils(bossId, amount);
+    if (res) {
+      return { "result": "ok", "hash": res.hash };
+    }
+  } catch (error: any) {
+    return { "result": "error", "msg": error.message };
   }
 }
 
@@ -176,8 +205,7 @@ export async function bag(lootId: number): Promise<any> {
 }
 
 export async function synthLootBag(walletAddress: string): Promise<any> {
-  const loot = new ethers.Contract(synthLootAddressOnPolygon, synthLootABI, currUserAccountSigner);
-  // const loot = new ethers.Contract(synthLootAddress, synthLootABI, currUserAccountSigner);
+  const loot = new ethers.Contract(synthLootAddressOnKovan, synthLootABI, currUserAccountSigner);
 
   if (walletAddress !== undefined || walletAddress !== '') {
     const [chest, foot, hand, head, neck, ring, waist, weapon] =

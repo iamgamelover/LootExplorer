@@ -1,6 +1,11 @@
 # A Loot Explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Loot Explorer is a beta game which based on [Hello Dungeon](https://twitter.com/dhof/status/1437492613691674635) and [Synthetic Loot](https://www.lootproject.com/synthloot) deployed on Ethereum Kovan Testnet.
+
+## Contracts
+
+- [Synthetic Loot](https://kovan.etherscan.io/address/0xa27ef6057a6c12810600c72927ad32f90e8080e6#code)
+- [Hello Dungeon](https://kovan.etherscan.io/address/0xdfb3314de9d632fbb2689fb2b68a69b0621c3a97#code)
 
 ## Available Scripts
 
