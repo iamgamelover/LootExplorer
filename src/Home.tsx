@@ -18,7 +18,10 @@ import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injec
 import { key_curr_wallect_index, key_duet_curr_user_account, kMetamaskConnection, useEagerConnect, useInactiveListener } from './hooks';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import Web3 from 'web3';
-import { bag, checkTxConfirm, claim, synthLootBag, tokenURI, xpName } from './contractTools';
+import {
+  activityDescription, activityName, bag, bosses, checkTxConfirm, claim, fight,
+  mechanics, synthLootBag, tokenURI, xpForAdventurer, xpName
+} from './contractTools';
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -37,8 +40,23 @@ export const chainName = new Map([
 ]);
 
 function Home() {
-  console.info('currUserAccount: ', currUserAccount);
-  console.info('currUserAccountSigner: ', currUserAccountSigner);
+  // console.info('currUserAccount: ', currUserAccount);
+  // console.info('currUserAccountSigner: ', currUserAccountSigner);
+
+  const [gameName, setGameName] = useState('');
+  const [gameIntro, setGameIntro] = useState('');
+  const [gameXPName, setGameXPName] = useState('');
+  const [yourXP, setYourXP] = useState('');
+  const [bossSpawned, setBossSpawned] = useState('');
+  const [currentBossId, setCurrentBossId] = useState('');
+  const [lastBossSpawnTime, setLastBossSpawnTime] = useState('');
+  const [purityLevel, setPurityLevel] = useState('');
+  const [weaknessLevel, setWeaknessLevel] = useState('');
+  const [damageLevel, setDamageLevel] = useState('');
+  const [stunLevel, setStunLevel] = useState('');
+  const [bossHP, setBossHP] = useState('');
+  const [spawnBlock, setSpawnBlock] = useState('');
+  const [killBlock, setKillBlock] = useState('');
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,7 +94,8 @@ function Home() {
     toast({
       title: msg,
       status: "info",
-      duration: 6000,
+      duration: 9000,
+      position: 'top',
       isClosable: true,
     })
   }
@@ -216,7 +235,7 @@ function Home() {
   }
 
 
-  let [inputBagId, setInputBagId] = useState(0)
+  let [inputBossId, setInputBossId] = useState(0)
 
   function getAccountString() {
     let myAccount = currUserAccount.substring(0, 6) + ' ... ' +
@@ -227,7 +246,7 @@ function Home() {
   function BeforeConnect() {
     return (
       <Button onClick={onOpen} px={5} leftIcon={<MdAccountBalanceWallet />}
-        colorScheme="green" variant="solid">
+        colorScheme="blue" variant="solid">
         Connect Wallet
       </Button>
     )
@@ -238,7 +257,7 @@ function Home() {
       <Flex align="center">
         <Text mr={5} color='yellow'>{chainName.get(currChainId)}</Text>
         <Button px={5} leftIcon={<MdAccountBalanceWallet />}
-          colorScheme="green" variant="solid">
+          colorScheme="blue" variant="solid">
           Connected to {getAccountString()}
         </Button>
       </Flex>
@@ -250,9 +269,56 @@ function Home() {
     // var mybag = await bag(1000);
     // var mybag = await tokenURI(1000);
     // var mybag = await claim(inputBagId);
-    var mybag = await xpName();
+    // var mybag = await fight();
+
     // var mybag = await synthLootBag('0xdE87541D9D34E8643a5AeeAA6C68C2De23881EF0');
+    var mybag = await xpForAdventurer('0x3Ed007531449555aB2eDc695E25f1c1892Ed81d1');
+
     console.log(mybag);
+  }
+
+  async function getData(content: string) {
+    let res;
+    switch (content) {
+      case 'activityName':
+        res = await activityName();
+        // toastInfo(res);
+        setGameName(res);
+        break;
+      case 'activityDescription':
+        res = await activityDescription();
+        // toastInfo(res);
+        setGameIntro(res);
+        break;
+      case 'xpName':
+        res = await xpName();
+        // toastInfo(res);
+        setGameXPName(res);
+        break;
+      case 'xpForAdventurer':
+        res = await xpForAdventurer(currUserAccount);
+        // toastInfo(res);
+        setYourXP(res);
+        break;
+      case 'mechanics':
+        res = await mechanics();
+        setBossSpawned(res.bossSpawned.toString());
+        setCurrentBossId(res.currentBossId._hex);
+        setLastBossSpawnTime(res.lastBossSpawnTime._hex);
+        setPurityLevel(res.purityLevel._hex);
+        setWeaknessLevel(res.weaknessLevel._hex);
+        setDamageLevel(res.damageLevel._hex);
+        setStunLevel(res.stunLevel._hex);
+        break;
+      case 'bosses':
+        res = await bosses(inputBossId);
+        setBossHP(res.hp);
+        setSpawnBlock(res.spawnBlock._hex);
+        setKillBlock(res.killBlock._hex);
+        break;
+      default:
+        break;
+    }
   }
 
   async function ogCickClaimBtn() {
@@ -267,7 +333,7 @@ function Home() {
       return;
     }
 
-    let res = await claim(inputBagId);
+    let res = await claim(inputBossId);
     console.info(res);
     if (res.result === "ok") {
       // mint success
@@ -285,7 +351,7 @@ function Home() {
   return (
     // <Center bgImage={bg}>
     <Center px={[2, 0]}>
-      <Flex direction='column' w={['100%', '80%']} px={[2, 20]} py={[2, 10]}>
+      <Flex direction='column' w={['100%', '80%']} px={[2, 5]} py={[2, 5]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
           <Text fontSize='6xl' mb={[2, 0]}>Loot Explorer</Text>
           <Flex>
@@ -299,13 +365,157 @@ function Home() {
         </Flex> */}
 
         <Flex w={['100%', '70%']} mt={[10, 3]} fontSize='xl' color='white'>
-          Loot Explorer is an independent universe located on the earth of Azeroth and
-          Outland during the period of the Burning Crusade.
+          Loot Explorer is a beta game with HelloDungeon and Synthetic Loot contracts on Ethereum Kovan Testnet.
         </Flex>
 
-        <Center mb={[10, 10]}>
+        <Text color='yellow' fontSize='2xl' mt={5}>Query Data</Text>
+        <Divider />
+
+        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(4, 1fr)']} gap={6} mt={[0, 5]}>
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('activityName')}
+              colorScheme="pink" variant="solid">
+              activityName
+            </Button>
+
+            <Flex direction='column' mt={3}>
+              <Text>Game Name:</Text>
+              <Text color='yellow'>{gameName}</Text>
+            </Flex>
+          </Flex>
+
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('activityDescription')}
+              colorScheme="pink" variant="solid">
+              activityDescription
+            </Button>
+
+            <Flex direction='column' mt={3}>
+              <Text>Game Intro:</Text>
+              <Text color='yellow'>{gameIntro}</Text>
+            </Flex>
+          </Flex>
+
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('xpName')}
+              colorScheme="pink" variant="solid">
+              xpName
+            </Button>
+
+            <Flex direction='column' mt={3}>
+              <Text>Game XP name:</Text>
+              <Text color='yellow'>{gameXPName}</Text>
+            </Flex>
+          </Flex>
+
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('xpForAdventurer')}
+              colorScheme="pink" variant="solid">
+              xpForAdventurer
+            </Button>
+
+            <Flex direction='column' mt={3}>
+              <Text>Your XP:</Text>
+              <Text color='yellow'>{yourXP}</Text>
+            </Flex>
+          </Flex>
+
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
+              colorScheme="pink" variant="solid">
+              Get Mechanics
+            </Button>
+
+            <Flex mt={3}>
+              <Text>bossSpawned:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>currentBossId:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>lastBossSpawnTime:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>purityLevel:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>weaknessLevel:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>damageLevel:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>stunLevel:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
+            </Flex>
+          </Flex>
+
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('bosses')}
+              colorScheme="pink" variant="solid">
+              Checkout Bosses
+            </Button>
+
+            <Flex direction='column' mt={3}>
+              <NumberInput>
+                {/* <NumberInput w={['15rem', '15rem']} mb={[8, 7]} > */}
+                <NumberInputField color='yellow' value={inputBossId} placeholder="Enter Boss ID"
+                  onChange={(e) => {
+                    setInputBossId(parseInt(e.target.value));
+                  }} />
+              </NumberInput>
+
+              <Flex mt={2}>
+                <Text>Boss HP:</Text>
+                <Text color='yellow' ml={3} fontWeight='bold'>{bossHP}</Text>
+              </Flex>
+
+              <Flex>
+                <Text>spawnBlock:</Text>
+                <Text color='yellow' ml={3} fontWeight='bold'>{spawnBlock}</Text>
+              </Flex>
+
+              <Flex>
+                <Text>killBlock:</Text>
+                <Text color='yellow' ml={3} fontWeight='bold'>{killBlock}</Text>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Grid>
+
+        <Text color='yellow' fontSize='2xl' mt={5}>Fighting</Text>
+        <Divider />
+
+        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(4, 1fr)']} gap={6} mt={[0, 5]}>
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={fight}
+              colorScheme="pink" variant="solid">
+              Fight
+            </Button>
+
+            {/* <Flex direction='column' mt={3}>
+              <Text>Game Name:</Text>
+              <Text color='yellow'>{gameName}</Text>
+            </Flex> */}
+          </Flex>
+
+        </Grid>
+
+        {/* <Center mb={[10, 10]}>
           <Flex direction={['column', 'row']} mt={10}>
-            {/* <Image src={wow} mr={[0, 20]} /> */}
+            <Image src={wow} mr={[0, 20]} />
 
             <Flex direction='column' align='center'>
               <Flex mt={3} mb={5} fontSize={['xl', '2xl']}>
@@ -317,10 +527,10 @@ function Home() {
                   onChange={(e) => {
                     setInputBagId(parseInt(e.target.value));
                   }} />
-                {/* <NumberInputStepper>
+                <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
-                </NumberInputStepper> */}
+                </NumberInputStepper>
               </NumberInput>
 
               <Flex>
@@ -331,7 +541,7 @@ function Home() {
               </Flex>
             </Flex>
           </Flex>
-        </Center>
+        </Center> */}
 
         {/* <Flex w={['100%', '70%']} mt={3} fontSize='xl' color='gray'>
           The Doom Lord Kazzak reopened the Dark Portal to Outland, plaguing Azeroth
@@ -344,8 +554,11 @@ function Home() {
           Let's fight our enemies together!
         </Flex> */}
 
-        <Flex mt={10} mb={5} fontSize='xl'>
-          Links to origin of the Loots:
+        <Text color='yellow' fontSize='2xl' mt={5}>Links</Text>
+        <Divider />
+
+        <Flex mt={2} mb={2} fontSize='xl'>
+          Origin of the Loot:
         </Flex>
 
         <Flex fontSize='xl'>
@@ -360,7 +573,7 @@ function Home() {
           </Link>
         </Flex>
 
-        <Divider mt={10} />
+        {/* <Divider mt={10} />
         <Flex mt={8} mb={2} fontSize='xl'>
           Links to WOW LOOT:
         </Flex>
@@ -375,7 +588,7 @@ function Home() {
           <Link mr={[0, 10]} href="https://twitter.com/Wloot01" isExternal>
             @Wloot01 <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
-        </Flex>
+        </Flex> */}
 
         <Divider mt={8} />
 
