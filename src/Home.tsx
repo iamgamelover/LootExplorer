@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
@@ -10,8 +10,8 @@ import { MdAccountBalanceWallet, MdBuild } from "react-icons/md"
 import logo from './iconZerogoki.svg';
 import iconMetamask from './iconMetamask.svg';
 import iconWalletConnect from './iconWalletConnect.svg';
-import bg from './bg.jpg';
-import wow from './wow.png';
+import bg from './assets/bg.jpg';
+import boss from './assets/boss.png';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injected, walletconnect } from './connectors';
@@ -21,7 +21,7 @@ import Web3 from 'web3';
 import {
   activityDescription, activityName, bag, bosses, checkTxConfirm, claim, claimSpoils, fight,
   fightBoss,
-  mechanics, spawnBoss, spoilsInventory, spoilsUnclaimed, synthLootBag, tokenURI, xpForAdventurer, xpName
+  mechanics, sleep, spawnBoss, spoilsInventory, spoilsUnclaimed, synthLootBag, tokenURI, weaponIdOfSynthLoot, xpForAdventurer, xpName
 } from './contractTools';
 
 export var currChainId = chain_id_eth;
@@ -76,6 +76,8 @@ function Home() {
   const [ring, setRing] = useState('');
   const [waist, setWaist] = useState('');
   const [weapon, setWeapon] = useState('');
+  const [weaponId, setWeaponId] = useState('');
+  const [weaponAction, setWeaponAction] = useState('');
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -91,6 +93,15 @@ function Home() {
   } else {
     currChainId = 0;
   }
+
+  // Get Mechanics
+  useEffect(() => {
+    if (currUserAccount !== undefined) {
+      onMechanics();
+      onSynthLootBag();
+      getWeapon(currUserAccount);
+    }
+  }, [currUserAccount]);
 
   //
   function toastError(msg: string) {
@@ -173,7 +184,7 @@ function Home() {
 
   const [activatingConnector, setActivatingConnector] = React.useState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (activatingConnector && activatingConnector === connector) {
       setActivatingConnector(undefined);
     }
@@ -320,17 +331,10 @@ function Home() {
         break;
       case 'xpForAdventurer':
         res = await xpForAdventurer(currUserAccount);
-        setYourXP(res);
+        setYourXP(parseInt(res).toString());
         break;
       case 'mechanics':
-        res = await mechanics();
-        setBossSpawned(res.bossSpawned.toString());
-        setCurrentBossId(res.currentBossId._hex);
-        setLastBossSpawnTime(res.lastBossSpawnTime._hex);
-        setPurityLevel(res.purityLevel._hex);
-        setWeaknessLevel(res.weaknessLevel._hex);
-        setDamageLevel(res.damageLevel._hex);
-        setStunLevel(res.stunLevel._hex);
+        onMechanics();
         break;
       case 'bosses':
         res = await bosses(inputBossId);
@@ -357,12 +361,62 @@ function Home() {
     }
   }
 
+  async function getWeapon(address: string) {
+    if (!canRun()) return;
+
+    let res = await weaponIdOfSynthLoot(address);
+    let weaponId = parseInt(res.res[0]._hex);
+    // console.info('getWeaponId = ', weaponId)
+
+    setWeaponId(weaponId.toString());
+
+    if (weaponId >= 14) {
+      // book
+      setWeaponAction('purityLevel');
+    } else if (weaponId >= 10) {
+      // wand
+      setWeaponAction('weaknessLevel');
+    } else if (weaponId >= 5) {
+      // blade
+      setWeaponAction('damageLevel');
+    } else {
+      // bludgeon
+      setWeaponAction('stunLevel');
+    }
+  }
+
+  async function onMechanics() {
+    if (!canRun()) return;
+
+    let res = await mechanics();
+    console.info('onMechanics = ', res)
+    // if (res.result === 'error') {
+    //   toastError('Fight failed.');
+    // }
+
+    setBossSpawned(res.bossSpawned.toString());
+    setCurrentBossId(parseInt(res.currentBossId._hex).toString());
+    setLastBossSpawnTime(parseInt(res.lastBossSpawnTime._hex).toString());
+    setPurityLevel(parseInt(res.purityLevel._hex).toString());
+    setWeaknessLevel(parseInt(res.weaknessLevel._hex).toString());
+    setDamageLevel(parseInt(res.damageLevel._hex).toString());
+    setStunLevel(parseInt(res.stunLevel._hex).toString());
+  }
+
   async function onFight() {
     if (!canRun()) return;
 
     let res = await fight();
-    console.info('onFight = ', res)
-    if (res.result === 'error') {
+    // console.info('onFight = ', res)
+
+    if (res.result === "ok") {
+      toastInfo('Fight emitted. Please wait for confirmation.');
+      if (await checkTxConfirm(res.hash)) {
+        toastSuccess('Successfully Fighted! Checkout the boss status.');
+        await sleep(10000);
+        onMechanics();
+      }
+    } else {
       toastError('Fight failed.');
     }
   }
@@ -401,7 +455,7 @@ function Home() {
     if (!canRun()) return;
 
     let res = await synthLootBag(currUserAccount);
-    console.info('onSynthLootBag = ', res)
+    // console.info('onSynthLootBag = ', res)
 
     setChest(res.chest);
     setFoot(res.foot);
@@ -439,10 +493,82 @@ function Home() {
     }
   }
 
+  const showWeapon = (
+    <Flex direction='column'>
+      <Button px={10} leftIcon={<MdBuild />} onClick={() => getWeapon(currUserAccount)}
+        colorScheme="pink" variant="solid">
+        Get Weapon
+      </Button>
+
+      <Flex mt={3}>
+        <Text>Weapon ID:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{weaponId}</Text>
+      </Flex>
+
+      <Flex mt={3}>
+        <Text>Weapon:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
+      </Flex>
+
+      <Flex mt={3} color='red' bg='yellow' px={3} borderRadius={5} >
+        <Text>Your weapon only can plus the {weaponAction}.</Text>
+      </Flex>
+
+      <Button px={10} leftIcon={<MdBuild />} onClick={onFight}
+        colorScheme="pink" variant="solid">
+        Fight
+      </Button>
+
+    </Flex>
+  )
+
+  const getMechanics = (
+    <Flex direction='column'>
+      <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
+        colorScheme="pink" variant="solid">
+        Get Mechanics
+      </Button>
+
+      <Flex mt={3}>
+        <Text>bossSpawned:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>currentBossId:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>lastBossSpawnTime:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>purityLevel:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>weaknessLevel:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>damageLevel:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
+      </Flex>
+
+      <Flex>
+        <Text>stunLevel:</Text>
+        <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
+      </Flex>
+    </Flex>
+  )
+
   // ROOT
   return (
-    // <Center bgImage={bg}>
-    <Center px={[2, 0]}>
+    <Center bgImage={bg} bgRepeat="no-repeat" bgSize='100%'>
       <Flex direction='column' w={['100%', '80%']} px={[2, 5]} py={[2, 5]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
           <Text fontSize='6xl' mb={[2, 0]}>Loot Explorer</Text>
@@ -451,10 +577,6 @@ function Home() {
             <ConnectWalletModal />
           </Flex>
         </Flex>
-
-        {/* <Flex mt={[8, 1]} mb={5} fontSize='2xl'>
-          By @Duet
-        </Flex> */}
 
         <Flex mt={[10, 3]} fontSize='xl' color='white'>
           <Text>Loot Explorer is a beta game which based on</Text>
@@ -466,6 +588,25 @@ function Home() {
             Synthetic Loot
           </Link>
           <Text>deployed on Ethereum Kovan Testnet.</Text>
+        </Flex>
+
+        <Text color='yellow' fontSize='2xl' mt={5}>World Boss</Text>
+        <Divider />
+
+        <Flex >
+          <Image src={boss} boxSize="350px" />
+          <Flex direction='column'>
+            <Flex>
+              <Text fontSize='2xl' >Status:</Text>
+              <Text fontSize='2xl' fontWeight='bold' color='red' bg='yellow' px={3}
+                borderRadius={5} ml={5}>Not Spawned - Need all of the four level more than 100</Text>
+            </Flex>
+
+            <Flex justify='space-between'>
+              {getMechanics}
+              {showWeapon}
+            </Flex>
+          </Flex>
         </Flex>
 
         <Text color='yellow' fontSize='2xl' mt={5}>Your Loot</Text>
@@ -525,18 +666,6 @@ function Home() {
         <Divider />
 
         <Grid templateColumns={['repeat(2, 90vw)', 'repeat(4, 1fr)']} gap={6} mt={[0, 5]}>
-          <Flex direction='column'>
-            <Button px={10} leftIcon={<MdBuild />} onClick={onFight}
-              colorScheme="pink" variant="solid">
-              Fight
-            </Button>
-
-            {/* <Flex direction='column' mt={3}>
-              <Text>Game Name:</Text>
-              <Text color='yellow'>{gameName}</Text>
-            </Flex> */}
-          </Flex>
-
           <Button px={10} leftIcon={<MdBuild />} onClick={onSpawnBoss}
             colorScheme="pink" variant="solid">
             Spawn Boss
@@ -621,47 +750,6 @@ function Home() {
             </Flex>
           </Flex>
 
-          <Flex direction='column'>
-            <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
-              colorScheme="pink" variant="solid">
-              Get Mechanics
-            </Button>
-
-            <Flex mt={3}>
-              <Text>bossSpawned:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>currentBossId:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>lastBossSpawnTime:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>purityLevel:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>weaknessLevel:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>damageLevel:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>stunLevel:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
-            </Flex>
-          </Flex>
 
           <Flex direction='column'>
             <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('bosses')}

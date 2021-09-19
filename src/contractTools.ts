@@ -63,7 +63,7 @@ export async function xpForAdventurer(address: string): Promise<any> {
 export async function mechanics(): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
   let res = await contract.mechanics();
-  console.info('mechanics = ', res);
+  // console.info('mechanics = ', res);
   if (res) {
     return res;
   }
@@ -127,7 +127,7 @@ export async function spoilsInventory(address: string): Promise<any> {
 
 export async function claimSpoils(bossId: number, amount: number): Promise<any> {
   const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
-  
+
   try {
     let res = await contract.claimSpoils(bossId, amount);
     if (res) {
@@ -139,30 +139,16 @@ export async function claimSpoils(bossId: number, amount: number): Promise<any> 
 }
 
 export async function fight(): Promise<any> {
-
-  if (currUserAccount) {
-    const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
-    try {
-      let res = await contract.fight();
-      if (res) {
-        return { "result": "ok", "hash": res.hash };
-      }
-    } catch (error: any) {
-      let msg = error.message as string
-      if (error.error) {
-        msg = error.error.message as string
-      }
-
-      let prefix = "MetaMask Tx Signature: "
-      if (msg.startsWith("MetaMask Tx Signature: ") === false) {
-        prefix = "execution reverted: "
-      }
-
-      return { "result": "error", "msg": msg.substr(prefix.length) };
+  const contract = new ethers.Contract(helloDungeonAddressOnKovan, HelloDungeonABI, currUserAccountSigner);
+  try {
+    let res = await contract.fight();
+    // console.log('FIGHT = ', res);
+    if (res) {
+      return { "result": "ok", "hash": res.hash };
     }
+  } catch (error: any) {
+    return { "result": "error", "msg": error.message };
   }
-
-  return { "result": "error", "msg": "Please connect to a wallet first!" };
 }
 
 export async function bag(lootId: number): Promise<any> {
@@ -238,6 +224,20 @@ export async function synthLootBag(walletAddress: string): Promise<any> {
   return {};
 }
 
+
+export async function weaponIdOfSynthLoot(address: string): Promise<any> {
+  const contract = new ethers.Contract(synthLootAddressOnKovan, synthLootABI, currUserAccountSigner);
+
+  try {
+    let res = await contract.weaponComponents(address);
+    if (res) {
+      return { "result": "ok", "res": res };
+    }
+  } catch (error: any) {
+    return { "result": "error", "msg": error.message };
+  }
+}
+
 export async function claim(tokenId: number): Promise<any> {
   if (currUserAccount) {
     let contract = new Contract(moreLootAddress, lootABI, currUserAccountSigner);
@@ -296,39 +296,52 @@ let hashCheckCount = new Map<string, number>();
 export async function checkTxConfirm(txHash: string): Promise<boolean> {
   await sleep(6000);
   let trx: any = null;
+
   try {
     trx = await web3.eth.getTransaction(txHash);
   } catch (error) {
     console.info(error);
   }
+  
   console.info(trx);
+  // TEMP FOR TESTING WILL BE DELETED
+  if (trx === null) {
+    return true;
+  }
+
+  //----------------------------------------------------------------
   let count = hashCheckCount.get(txHash);
+  console.info(count);
   if (trx === null || trx === undefined) {
     if (count !== undefined && count > 60) {
       hashCheckCount.delete(txHash);
       return true;
     }
   }
+
   if (trx && trx.blockNumber !== null) {
     if (hashCheckCount.get(txHash) !== undefined) {
       hashCheckCount.delete(txHash);
     }
     return true;
   }
+
   if (count === undefined) {
     count = 1;
   } else {
     count++;
   }
+
   hashCheckCount.set(txHash, count);
   if (trx === null || trx === undefined) {
     await sleep(12000);
   } else {
     await sleep(8000);
   }
+
   return await checkTxConfirm(txHash);
 }
 
-function sleep(time: number) {
+export function sleep(time: number) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
