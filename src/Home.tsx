@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid, Tooltip
 } from "@chakra-ui/react"
 import { theme } from './theme';
 import { ArrowForwardIcon, ExternalLinkIcon } from '@chakra-ui/icons';
@@ -23,6 +23,17 @@ import {
   fightBoss,
   mechanics, sleep, spawnBoss, spoilsInventory, spoilsUnclaimed, synthLootBag, tokenURI, weaponIdOfSynthLoot, xpForAdventurer, xpName
 } from './contractTools';
+
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+} from "@chakra-ui/react"
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -78,6 +89,7 @@ function Home() {
   const [weapon, setWeapon] = useState('');
   const [weaponId, setWeaponId] = useState('');
   const [weaponAction, setWeaponAction] = useState('');
+  const [fightAction, setFightAction] = useState('');
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -100,6 +112,7 @@ function Home() {
       onMechanics();
       onSynthLootBag();
       getWeapon(currUserAccount);
+      getXP();
     }
   }, [currUserAccount]);
 
@@ -291,7 +304,7 @@ function Home() {
         <Text mr={5} color='yellow'>{chainName.get(currChainId)}</Text>
         <Button px={5} leftIcon={<MdAccountBalanceWallet />}
           colorScheme="blue" variant="solid">
-          Connected to {getAccountString()}
+          {getAccountString()}
         </Button>
       </Flex>
     )
@@ -330,8 +343,7 @@ function Home() {
         setGameXPName(res);
         break;
       case 'xpForAdventurer':
-        res = await xpForAdventurer(currUserAccount);
-        setYourXP(parseInt(res).toString());
+        getXP();
         break;
       case 'mechanics':
         onMechanics();
@@ -361,9 +373,16 @@ function Home() {
     }
   }
 
+  async function getXP() {
+    if (!canRun()) return;
+    let res = await xpForAdventurer(currUserAccount);
+    setYourXP(parseInt(res).toString());
+  }
+
   async function getWeapon(address: string) {
     if (!canRun()) return;
 
+    let preFA = 'Fight to plus the boss ';
     let res = await weaponIdOfSynthLoot(address);
     let weaponId = parseInt(res.res[0]._hex);
     // console.info('getWeaponId = ', weaponId)
@@ -373,15 +392,19 @@ function Home() {
     if (weaponId >= 14) {
       // book
       setWeaponAction('purityLevel');
+      setFightAction(preFA + 'purityLevel');
     } else if (weaponId >= 10) {
       // wand
       setWeaponAction('weaknessLevel');
+      setFightAction(preFA + 'weaknessLevel');
     } else if (weaponId >= 5) {
       // blade
       setWeaponAction('damageLevel');
+      setFightAction(preFA + 'damageLevel');
     } else {
       // bludgeon
       setWeaponAction('stunLevel');
+      setFightAction(preFA + 'stunLevel');
     }
   }
 
@@ -494,74 +517,76 @@ function Home() {
   }
 
   const showWeapon = (
-    <Flex direction='column'>
-      <Button px={10} leftIcon={<MdBuild />} onClick={() => getWeapon(currUserAccount)}
-        colorScheme="pink" variant="solid">
-        Get Weapon
-      </Button>
+    <Flex direction='column' w='20%' mr={10}>
+      <Tooltip hasArrow label="Checkout your weapon" placement="top">
+        <Button px={10} leftIcon={<MdBuild />} onClick={() => getWeapon(currUserAccount)}
+          colorScheme="pink" variant="solid">
+          Get Weapon
+        </Button>
+      </Tooltip>
 
-      <Flex mt={3}>
-        <Text>Weapon ID:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{weaponId}</Text>
-      </Flex>
+      <Flex direction='column' fontSize='xl'>
+        <Flex mt={3}>
+          <Text>Weapon ID:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{weaponId}</Text>
+        </Flex>
 
-      <Flex mt={3}>
-        <Text>Weapon:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
+        <Flex mt={3}>
+          <Text>Weapon:</Text>
+          <Text w='60%' color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
+        </Flex>
       </Flex>
 
       <Flex mt={3} color='red' bg='yellow' px={3} borderRadius={5} >
         <Text>Your weapon only can plus the {weaponAction}.</Text>
       </Flex>
-
-      <Button px={10} leftIcon={<MdBuild />} onClick={onFight}
-        colorScheme="pink" variant="solid">
-        Fight
-      </Button>
-
     </Flex>
   )
 
   const getMechanics = (
-    <Flex direction='column'>
-      <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
-        colorScheme="pink" variant="solid">
-        Get Mechanics
-      </Button>
+    <Flex direction='column' w='25%' mr={10}>
+      <Tooltip hasArrow label="Checkout the boss status" placement="top">
+        <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
+          colorScheme="pink" variant="solid">
+          Get Mechanics
+        </Button>
+      </Tooltip>
 
-      <Flex mt={3}>
-        <Text>bossSpawned:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
-      </Flex>
+      <Flex direction='column' fontSize='xl'>
+        <Flex mt={3}>
+          <Text>bossSpawned:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>currentBossId:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
-      </Flex>
+        <Flex>
+          <Text>currentBossId:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>lastBossSpawnTime:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
-      </Flex>
+        <Flex>
+          <Text>lastBossSpawnTime:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>purityLevel:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
-      </Flex>
+        <Flex>
+          <Text>purityLevel:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>weaknessLevel:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
-      </Flex>
+        <Flex>
+          <Text>weaknessLevel:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>damageLevel:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
-      </Flex>
+        <Flex>
+          <Text>damageLevel:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
+        </Flex>
 
-      <Flex>
-        <Text>stunLevel:</Text>
-        <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
+        <Flex>
+          <Text>stunLevel:</Text>
+          <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
+        </Flex>
       </Flex>
     </Flex>
   )
@@ -571,41 +596,91 @@ function Home() {
     <Center bgImage={bg} bgRepeat="no-repeat" bgSize='100%'>
       <Flex direction='column' w={['100%', '80%']} px={[2, 5]} py={[2, 5]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
-          <Text fontSize='6xl' mb={[2, 0]}>Loot Explorer</Text>
+          <Text fontSize='6xl'>Loot Explorer</Text>
+          <Text fontSize='xl' color='yellow'>Adventurer XP: {yourXP}</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
             <ConnectWalletModal />
           </Flex>
         </Flex>
 
-        <Flex mt={[10, 3]} fontSize='xl' color='white'>
-          <Text>Loot Explorer is a beta game which based on</Text>
-          <Link color='blue' href="https://twitter.com/dhof/status/1437492613691674635" isExternal mx={2}>
-            Hello Dungeon
-          </Link>
-          <Text>and</Text>
-          <Link color='blue' href="https://www.lootproject.com/synthloot" isExternal mx={2}>
-            Synthetic Loot
-          </Link>
+        <Flex mt={[1, 3]} fontSize='2xl' color='white' direction='column'>
+          <Flex>
+            <Text>Loot Explorer is a beta game which based on</Text>
+            <Link color='blue' href="https://twitter.com/dhof/status/1437492613691674635" isExternal mx={2}>
+              Hello Dungeon
+            </Link>
+            <Text>and</Text>
+            <Link color='blue' href="https://www.lootproject.com/synthloot" isExternal mx={2}>
+              Synthetic Loot
+            </Link>
+          </Flex>
           <Text>deployed on Ethereum Kovan Testnet.</Text>
         </Flex>
 
-        <Text color='yellow' fontSize='2xl' mt={5}>World Boss</Text>
+        <Flex mt={10} mb={2} align="center">
+          <Text color='yellow' fontSize='2xl'>World Boss</Text>
+          <Text fontSize='xl' color='red' bg='yellow' px={3}
+            borderRadius={5} ml={5}>Not Spawned - Need all of the four level more than 100
+          </Text>
+        </Flex>
+
         <Divider />
 
-        <Flex >
+        <Flex justify='space-between' mt={10}>
           <Image src={boss} boxSize="350px" />
-          <Flex direction='column'>
-            <Flex>
-              <Text fontSize='2xl' >Status:</Text>
-              <Text fontSize='2xl' fontWeight='bold' color='red' bg='yellow' px={3}
-                borderRadius={5} ml={5}>Not Spawned - Need all of the four level more than 100</Text>
-            </Flex>
+          {getMechanics}
+          {showWeapon}
 
-            <Flex justify='space-between'>
-              {getMechanics}
-              {showWeapon}
-            </Flex>
+          <Flex direction='column' p={3}
+            borderWidth='1px' borderColor='yellow' borderRadius={5}>
+
+            <Grid templateColumns='repeat(1, 1fr)' gap={6} mt={[0, 5]}>
+              <Tooltip hasArrow label={fightAction} placement="top">
+              {/* <Tooltip hasArrow label="Fight to plus the " placement="top"> */}
+                <Button px={10} leftIcon={<MdBuild />} onClick={onFight}
+                  colorScheme="pink" variant="solid">
+                  Fight
+                </Button>
+              </Tooltip>
+
+              <Button px={10} leftIcon={<MdBuild />} onClick={onSpawnBoss}
+                colorScheme="pink" variant="solid">
+                Spawn Boss
+              </Button>
+
+              <Button px={10} leftIcon={<MdBuild />} onClick={onFightBoss}
+                colorScheme="pink" variant="solid">
+                Fight Boss
+              </Button>
+
+              <Popover>
+                <PopoverTrigger>
+                  <Button px={10} leftIcon={<MdBuild />} colorScheme="pink" variant="solid">
+                    Claim Spoils
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverBody>
+                    <NumberInput mt={2}>
+                      <NumberInputField color='yellow' value={claimBossId} placeholder="Boss ID"
+                        onChange={(e) => {
+                          setClaimBossId(parseInt(e.target.value));
+                        }} />
+                    </NumberInput>
+
+                    <NumberInput mt={2}>
+                      <NumberInputField color='yellow' value={claimAmount} placeholder="Amount"
+                        onChange={(e) => {
+                          setClaimAmount(parseInt(e.target.value));
+                        }} />
+                    </NumberInput>
+
+                    <Button colorScheme="blue" mt={3} onClick={onClaimSpoils}>Apply</Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            </Grid>
           </Flex>
         </Flex>
 
@@ -665,38 +740,6 @@ function Home() {
         <Text color='yellow' fontSize='2xl' mt={5}>Fighting</Text>
         <Divider />
 
-        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(4, 1fr)']} gap={6} mt={[0, 5]}>
-          <Button px={10} leftIcon={<MdBuild />} onClick={onSpawnBoss}
-            colorScheme="pink" variant="solid">
-            Spawn Boss
-          </Button>
-
-          <Button px={10} leftIcon={<MdBuild />} onClick={onFightBoss}
-            colorScheme="pink" variant="solid">
-            Fight Boss
-          </Button>
-
-          <Flex direction='column'>
-            <Button px={10} leftIcon={<MdBuild />} onClick={onClaimSpoils}
-              colorScheme="pink" variant="solid">
-              Claim Spoils
-            </Button>
-
-            <NumberInput mt={2}>
-              <NumberInputField color='yellow' value={claimBossId} placeholder="Boss ID"
-                onChange={(e) => {
-                  setClaimBossId(parseInt(e.target.value));
-                }} />
-            </NumberInput>
-
-            <NumberInput mt={2}>
-              <NumberInputField color='yellow' value={claimAmount} placeholder="Amount"
-                onChange={(e) => {
-                  setClaimAmount(parseInt(e.target.value));
-                }} />
-            </NumberInput>
-          </Flex>
-        </Grid>
 
         <Text color='yellow' fontSize='2xl' mt={5}>Query Data</Text>
         <Divider />
