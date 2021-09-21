@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid, Tooltip
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid, Tooltip, Box, IconButton
 } from "@chakra-ui/react"
 import { theme } from './theme';
-import { ArrowForwardIcon, ExternalLinkIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { MdAccountBalanceWallet, MdBuild } from "react-icons/md"
 import logo from './iconZerogoki.svg';
 import iconMetamask from './iconMetamask.svg';
 import iconWalletConnect from './iconWalletConnect.svg';
 import bg from './assets/bg.jpg';
 import boss from './assets/boss.png';
+import lootlogo from './assets/lootlogo.png';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { chain_id_eth, defaultWalletProvider, getNewWalletConnectInstance, injected, walletconnect } from './connectors';
@@ -435,9 +436,10 @@ function Home() {
     if (res.result === "ok") {
       toastInfo('Fight emitted. Please wait for confirmation.');
       if (await checkTxConfirm(res.hash)) {
+        await sleep(15000);
         toastSuccess('Successfully Fighted! Checkout the boss status.');
-        await sleep(10000);
         onMechanics();
+        getXP();
       }
     } else {
       toastError('Fight failed.');
@@ -600,6 +602,66 @@ function Home() {
           <Text fontSize='xl' color='yellow'>Adventurer XP: {yourXP}</Text>
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
+
+            <Popover>
+              <PopoverTrigger>
+                <Box as="button" ml={5}>
+                  <Tooltip hasArrow label='Your Loot' placement="top">
+                    <Image
+                      borderRadius="full"
+                      boxSize="45px"
+                      src={lootlogo}
+                    />
+                  </Tooltip>
+                </Box>
+              </PopoverTrigger>
+              <PopoverContent bg='black' color='white' fontSize='lg'>
+                <PopoverBody>
+                  <Flex direction='column'>
+                    <Flex>
+                      {/* <Text>chest:</Text> */}
+                      <Text>{chest}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>foot:</Text> */}
+                      <Text>{foot}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>hand:</Text> */}
+                      <Text>{hand}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>head:</Text> */}
+                      <Text>{head}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>neck:</Text> */}
+                      <Text>{neck}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>ring:</Text> */}
+                      <Text>{ring}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>waist:</Text> */}
+                      <Text>{waist}</Text>
+                    </Flex>
+
+                    <Flex>
+                      {/* <Text>weapon:</Text> */}
+                      <Text>{weapon}</Text>
+                    </Flex>
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+
             <ConnectWalletModal />
           </Flex>
         </Flex>
@@ -612,10 +674,13 @@ function Home() {
             </Link>
             <Text>and</Text>
             <Link color='blue' href="https://www.lootproject.com/synthloot" isExternal mx={2}>
-              Synthetic Loot
+              Synthetic Loot.
             </Link>
           </Flex>
-          <Text>deployed on Ethereum Kovan Testnet.</Text>
+          <Text>Deployed on Ethereum Kovan Testnet.</Text>
+          <Text fontWeight='bold' mt={3}>
+            The Boss Spawned By Players, Fight By Players, Share Spoils By Players.
+          </Text>
         </Flex>
 
         <Flex mt={10} mb={2} align="center">
@@ -637,7 +702,7 @@ function Home() {
 
             <Grid templateColumns='repeat(1, 1fr)' gap={6} mt={[0, 5]}>
               <Tooltip hasArrow label={fightAction} placement="top">
-              {/* <Tooltip hasArrow label="Fight to plus the " placement="top"> */}
+                {/* <Tooltip hasArrow label="Fight to plus the " placement="top"> */}
                 <Button px={10} leftIcon={<MdBuild />} onClick={onFight}
                   colorScheme="pink" variant="solid">
                   Fight
@@ -684,64 +749,7 @@ function Home() {
           </Flex>
         </Flex>
 
-        <Text color='yellow' fontSize='2xl' mt={5}>Your Loot</Text>
-        <Divider />
-
-        <Grid templateColumns={['repeat(2, 90vw)', 'repeat(2, 1fr)']} gap={6} mt={[0, 5]}>
-
-          <Flex direction='column'>
-            <Button px={10} leftIcon={<MdBuild />} onClick={onSynthLootBag}
-              colorScheme="pink" variant="solid">
-              Synthetic Loot
-            </Button>
-
-            <Flex mt={3}>
-              <Text>chest:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{chest}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>foot:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{foot}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>hand:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{hand}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>head:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{head}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>neck:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{neck}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>ring:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{ring}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>waist:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{waist}</Text>
-            </Flex>
-
-            <Flex>
-              <Text>weapon:</Text>
-              <Text color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
-            </Flex>
-          </Flex>
-        </Grid>
-
-        <Text color='yellow' fontSize='2xl' mt={5}>Fighting</Text>
-        <Divider />
-
-
-        <Text color='yellow' fontSize='2xl' mt={5}>Query Data</Text>
+        <Text color='yellow' fontSize='2xl' mt='5rem'>Query Data</Text>
         <Divider />
 
         <Grid templateColumns={['repeat(2, 90vw)', 'repeat(4, 1fr)']} gap={6} mt={[0, 5]}>
@@ -793,6 +801,52 @@ function Home() {
             </Flex>
           </Flex>
 
+          <Flex direction='column'>
+            <Button px={10} leftIcon={<MdBuild />} onClick={onSynthLootBag}
+              colorScheme="pink" variant="solid">
+              Synthetic Loot
+            </Button>
+
+            <Flex mt={3}>
+              <Text>chest:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{chest}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>foot:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{foot}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>hand:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{hand}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>head:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{head}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>neck:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{neck}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>ring:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{ring}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>waist:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{waist}</Text>
+            </Flex>
+
+            <Flex>
+              <Text>weapon:</Text>
+              <Text color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
+            </Flex>
+          </Flex>
 
           <Flex direction='column'>
             <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('bosses')}
@@ -890,7 +944,7 @@ function Home() {
           </Flex>
         </Grid>
 
-        <Text color='yellow' fontSize='2xl' mt={5}>Links</Text>
+        <Text color='yellow' fontSize='2xl' mt='5rem'>Links</Text>
         <Divider />
 
         <Flex mt={2} mb={2} fontSize='xl'>
@@ -910,11 +964,11 @@ function Home() {
         </Flex>
 
         <Center>
-          <Flex my={6} fontSize='xl' color='white'>
-            <Text>This website is</Text>
-            <Link color='blue' href="https://github.com/iamgamelover/LootExplorer" isExternal mx={2}>
+          <Flex mt='3rem' mb={6} fontSize='xl' color='white'>
+            <Text>This website is a beta game.</Text>
+            {/* <Link color='blue' href="https://github.com/iamgamelover/LootExplorer" isExternal mx={2}>
               open-source.
-            </Link>
+            </Link> */}
           </Flex>
         </Center>
       </Flex>
