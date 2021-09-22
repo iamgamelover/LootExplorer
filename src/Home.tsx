@@ -101,6 +101,10 @@ function Home() {
   // console.info('currUserAccount: ', currUserAccount);
   // console.info('currUserAccountSigner: ', currUserAccountSigner);
 
+  const W_1 = '3.5rem';
+  const W_2 = '8rem';
+  const W_3 = '5.5rem';
+
   if (chainId) {
     currChainId = chainId;
   } else {
@@ -352,22 +356,22 @@ function Home() {
       case 'bosses':
         res = await bosses(inputBossId);
         setBossHP(res.hp);
-        setSpawnBlock(res.spawnBlock._hex);
-        setKillBlock(res.killBlock._hex);
+        setSpawnBlock(parseInt(res.spawnBlock._hex).toString());
+        setKillBlock(parseInt(res.killBlock._hex).toString());
         break;
       case 'spoilsInventory':
         res = await spoilsInventory(currUserAccount);
-        setFang(res.fang._hex);
-        setTail(res.tail._hex);
-        setMantle(res.mantle._hex);
-        setHorn(res.horn._hex);
-        setClaw(res.claw._hex);
-        setEye(res.eye._hex);
-        setHeart(res.heart._hex);
+        setFang(parseInt(res.fang._hex).toString());
+        setTail(parseInt(res.tail._hex).toString());
+        setMantle(parseInt(res.mantle._hex).toString());
+        setHorn(parseInt(res.horn._hex).toString());
+        setClaw(parseInt(res.claw._hex).toString());
+        setEye(parseInt(res.eye._hex).toString());
+        setHeart(parseInt(res.heart._hex).toString());
         break;
       case 'spoilsUnclaimed':
         res = await spoilsUnclaimed(currUserAccount, inputBossId);
-        setUnclaimed(res._hex);
+        setUnclaimed(parseInt(res._hex).toString());
         break;
       default:
         break;
@@ -530,12 +534,12 @@ function Home() {
       <Flex direction='column' fontSize='xl'>
         <Flex mt={3}>
           <Text>Weapon ID:</Text>
-          <Text color='yellow' ml={3} fontWeight='bold'>{weaponId}</Text>
+          <Text ml={3} color='yellow' fontWeight='bold'>{weaponId}</Text>
         </Flex>
 
         <Flex mt={3}>
           <Text>Weapon:</Text>
-          <Text w='60%' color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
+          <Text w='60%' ml={3} color='yellow' fontWeight='bold'>{weapon}</Text>
         </Flex>
       </Flex>
 
@@ -556,37 +560,37 @@ function Home() {
 
       <Flex direction='column' fontSize='xl'>
         <Flex mt={3}>
-          <Text>bossSpawned:</Text>
+          <Text w={W_2} align="right">bossSpawned:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{bossSpawned}</Text>
         </Flex>
 
         <Flex>
-          <Text>currentBossId:</Text>
+          <Text w={W_2} align="right">currentBossId:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{currentBossId}</Text>
         </Flex>
 
         <Flex>
-          <Text>lastBossSpawnTime:</Text>
+          <Text w={W_2} align="right">SpawnTime:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{lastBossSpawnTime}</Text>
         </Flex>
 
         <Flex>
-          <Text>purityLevel:</Text>
+          <Text w={W_2} align="right">purityLevel:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{purityLevel}</Text>
         </Flex>
 
         <Flex>
-          <Text>weaknessLevel:</Text>
+          <Text w={W_2} align="right">weaknessLevel:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{weaknessLevel}</Text>
         </Flex>
 
         <Flex>
-          <Text>damageLevel:</Text>
+          <Text w={W_2} align="right">damageLevel:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{damageLevel}</Text>
         </Flex>
 
         <Flex>
-          <Text>stunLevel:</Text>
+          <Text w={W_2} align="right">stunLevel:</Text>
           <Text color='yellow' ml={3} fontWeight='bold'>{stunLevel}</Text>
         </Flex>
       </Flex>
@@ -808,42 +812,42 @@ function Home() {
             </Button>
 
             <Flex mt={3}>
-              <Text>chest:</Text>
+              <Text w={W_1} align="right">chest:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{chest}</Text>
             </Flex>
 
             <Flex>
-              <Text>foot:</Text>
+              <Text w={W_1} align="right">foot:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{foot}</Text>
             </Flex>
 
             <Flex>
-              <Text>hand:</Text>
+              <Text w={W_1} align="right">hand:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{hand}</Text>
             </Flex>
 
             <Flex>
-              <Text>head:</Text>
+              <Text w={W_1} align="right">head:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{head}</Text>
             </Flex>
 
             <Flex>
-              <Text>neck:</Text>
+              <Text w={W_1} align="right">neck:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{neck}</Text>
             </Flex>
 
             <Flex>
-              <Text>ring:</Text>
+              <Text w={W_1} align="right">ring:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{ring}</Text>
             </Flex>
 
             <Flex>
-              <Text>waist:</Text>
+              <Text w={W_1} align="right">waist:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{waist}</Text>
             </Flex>
 
             <Flex>
-              <Text>weapon:</Text>
+              <Text w={W_1} align="right">weapon:</Text>
               <Text color='yellow' ml={3} fontWeight='bold'>{weapon}</Text>
             </Flex>
           </Flex>
@@ -863,17 +867,17 @@ function Home() {
               </NumberInput>
 
               <Flex mt={2}>
-                <Text>Boss HP:</Text>
+                <Text w={W_3} align="right">Boss HP:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{bossHP}</Text>
               </Flex>
 
               <Flex>
-                <Text>spawnBlock:</Text>
+                <Text w={W_3} align="right">spawnBlock:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{spawnBlock}</Text>
               </Flex>
 
               <Flex>
-                <Text>killBlock:</Text>
+                <Text w={W_3} align="right">killBlock:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{killBlock}</Text>
               </Flex>
             </Flex>
@@ -887,37 +891,37 @@ function Home() {
 
             <Flex direction='column' mt={3}>
               <Flex>
-                <Text>fang:</Text>
+                <Text w={W_1} align="right">fang:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{fang}</Text>
               </Flex>
 
               <Flex>
-                <Text>tail:</Text>
+                <Text w={W_1} align="right">tail:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{tail}</Text>
               </Flex>
 
               <Flex>
-                <Text>mantle:</Text>
+                <Text w={W_1} align="right">mantle:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{mantle}</Text>
               </Flex>
 
               <Flex>
-                <Text>horn:</Text>
+                <Text w={W_1} align="right">horn:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{horn}</Text>
               </Flex>
 
               <Flex>
-                <Text>claw:</Text>
+                <Text w={W_1} align="right">claw:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{claw}</Text>
               </Flex>
 
               <Flex>
-                <Text>eye:</Text>
+                <Text w={W_1} align="right">eye:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{eye}</Text>
               </Flex>
 
               <Flex>
-                <Text>heart:</Text>
+                <Text w={W_1} align="right">heart:</Text>
                 <Text color='yellow' ml={3} fontWeight='bold'>{heart}</Text>
               </Flex>
             </Flex>
