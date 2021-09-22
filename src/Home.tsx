@@ -710,7 +710,7 @@ function Home() {
         <Flex mt={10} mb={2} align="center">
           <Text color='yellow' fontSize='2xl'>World Boss</Text>
           <Text fontSize='xl' color='red' bg='yellow' px={3}
-            borderRadius={5} ml={5}>Not Spawned - Need all of the four level more than 100
+            borderRadius={5} ml={5}>Not Spawned - Need all of the four level more than 100. Let's Fight.
           </Text>
         </Flex>
 
