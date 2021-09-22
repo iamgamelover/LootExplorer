@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
   Center, Button, Image, Divider, Flex, Heading, Link, Modal, ModalBody,
-  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, useToast, Grid, Tooltip, Box, IconButton
+  ModalContent, ModalOverlay, Text, useDisclosure, NumberDecrementStepper,
+  NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper,
+  useToast, Grid, Tooltip, Box, IconButton, keyframes
 } from "@chakra-ui/react"
 import { theme } from './theme';
 import { ArrowForwardIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons';
@@ -35,6 +37,15 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from "@chakra-ui/react"
+
+// var vibCount = 0;
+const vib = keyframes`
+  25% {transform: scale(1.05)}
+  50%, 100% {transform: scale(1)}
+  75% {transform: scale(1.05)}
+`;
+
+const vibAnimation = `${vib} 2s linear infinite`;
 
 export var currChainId = chain_id_eth;
 export var currUserAccount: any;
@@ -91,6 +102,8 @@ function Home() {
   const [weaponId, setWeaponId] = useState('');
   const [weaponAction, setWeaponAction] = useState('');
   const [fightAction, setFightAction] = useState('');
+
+  const [launchAni, setLaunchAni] = useState(false);
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -442,8 +455,13 @@ function Home() {
       if (await checkTxConfirm(res.hash)) {
         await sleep(15000);
         toastSuccess('Successfully Fighted! Checkout the boss status.');
+        setLaunchAni(true);
         onMechanics();
         getXP();
+
+        // Stop the vibAnimation
+        await sleep(6000);
+        setLaunchAni(false);
       }
     } else {
       toastError('Fight failed.');
@@ -550,7 +568,7 @@ function Home() {
   )
 
   const getMechanics = (
-    <Flex direction='column' w='25%' mr={10}>
+    <Flex direction='column' w='25%' mr={10} animation={launchAni ? vibAnimation : ''}>
       <Tooltip hasArrow label="Checkout the boss status" placement="top">
         <Button px={10} leftIcon={<MdBuild />} onClick={() => getData('mechanics')}
           colorScheme="pink" variant="solid">
@@ -603,10 +621,12 @@ function Home() {
       <Flex direction='column' w={['100%', '80%']} px={[2, 5]} py={[2, 5]}>
         <Flex direction={['column', 'row']} justify="space-between" align="center">
           <Text fontSize='6xl'>Loot Explorer</Text>
-          <Text fontSize='xl' color='yellow'>Adventurer XP: {yourXP}</Text>
+          <Text fontSize='xl' color='yellow' animation={launchAni ? vibAnimation : ''}>
+            Adventurer XP: {yourXP}
+          </Text>
+
           <Flex>
             {currUserAccount === undefined ? <BeforeConnect /> : <AfterConnect />}
-
             <Popover>
               <PopoverTrigger>
                 <Box as="button" ml={5}>
