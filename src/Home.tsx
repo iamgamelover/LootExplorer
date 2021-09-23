@@ -132,7 +132,7 @@ function Home() {
       getWeapon(currUserAccount);
       getXP();
     }
-  }, [currUserAccount]);
+  }, [currUserAccount, chainId]);
 
   //
   function toastError(msg: string) {
@@ -984,6 +984,9 @@ function Home() {
           </Link>
           <Link mr={[0, 10]} href="https://twitter.com/lootproject" isExternal>
             @lootproject <ExternalLinkIcon mx="2px" mb="3px" />
+          </Link>
+          <Link mr={[0, 10]} href="https://twitter.com/digyourinsight" isExternal>
+            @digyourinsight <ExternalLinkIcon mx="2px" mb="3px" />
           </Link>
         </Flex>
 
